@@ -1,4 +1,4 @@
-public enum Path {
+public enum FilePath {
     // enum with all config file paths
     WARRIOR("Warriors.txt"),
     SORCERER("Sorcerers.txt"),
@@ -15,7 +15,7 @@ public enum Path {
 
     private static final String root = "\\src\\ConfigFiles\\";
     private final String path;
-    Path(String s) {
+    FilePath(String s) {
         this.path = System.getProperty("user.dir") + root + s;
     }
 

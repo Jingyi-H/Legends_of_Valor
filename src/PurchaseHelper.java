@@ -1,21 +1,20 @@
 import java.util.ArrayList;
 
-import Assignment3.purchaseHelper;
+
 
 
 
 public class PurchaseHelper {
 	
 	public static void purchase(Hero hero, Market market) {
-		
 		System.out.println("####################################################");
-		market.showItems();
+		market.showitems();
 		System.out.println("####################################################");
 		System.out.print(hero.getName());
-		System.out.println(", make your purchase or quit:"+ "("+ hero.getMoney()+" remain money"+")");
+		System.out.println(", please make your purchase or quit:"+ "("+hero.getMoney()+" remain money"+")");
 		while(true) {
 			int choice = AskInput.askpurchase();
-			if(choice == 0) {break;}
+			if(choice == 30 ) {break;}
 			int choiceindex = purchaseindex(choice);
 			ArrayList<ArrayList<String>> division = purchaseDivision(choice,market);
 			if(buyable(choiceindex,division,hero)) {
@@ -24,23 +23,24 @@ public class PurchaseHelper {
 				int cost = Integer.parseInt(itembought.get(1));
 				hero.spendMoney(cost);
 				if(InventoryNo == 0) {
-					hero.getBag().addArmor(itembought);
+					hero.getBag().addArmor(new Armor(itembought));
 				}else if(InventoryNo == 1) {
-					hero.getBag().addWeapon(itembought);
+					hero.getBag().addWeapon(new Weapon(itembought));
 				}else if(InventoryNo == 2) {
-					hero.getBag().addFire(itembought);
+					hero.getBag().addSpell(new Spell(itembought,2));
 				}else if(InventoryNo == 3) {
-					hero.getBag().addIce(itembought);
+					hero.getBag().addSpell(new Spell(itembought,3));
 				}else if(InventoryNo == 4) {
-					hero.getBag().addLightning(itembought);
+					hero.getBag().addSpell(new Spell(itembought,4));
 				}else {
-					hero.getBag().addPotion(itembought);
+					hero.getBag().addPotion(new Potion(itembought));
 				}
-				System.out.println("You have "+ hero.getMoney() + " left");				
+				System.out.println("You have "+hero.getMoney() + "$ left");
 			}
 			else {
 				System.out.println("You don't have enough money or you are not level enough to purchase this item, please make another selecion");
 			}
+			
 			
 		}
 	}
@@ -91,5 +91,7 @@ public class PurchaseHelper {
 		else if(a>=20 && a<24) {return 4;}
 		else {return 5;}
 	}
+	
+	
 
 }

@@ -1,32 +1,30 @@
 import java.util.ArrayList;
 
-
 public class Spell {
 	
-	private ArrayList<ArrayList<String>> FireSpell;
-	private ArrayList<ArrayList<String>> IceSpell;
-	private ArrayList<ArrayList<String>> LightningSpell;
+	private int Damage;
+	private String name;
+	private int level;
+	private int cost;
+	private int ManaCost;
+	private String type;
 	
-	//default constructors
-	public Spell() {
-		this.FireSpell = AskInput.read("FireSpells.txt");
-		this.IceSpell = AskInput.read("IceSpells.txt");
-		this.LightningSpell = AskInput.read("LightningSpells.txt");
+	public Spell(ArrayList<String> info, int type) {
+		this.name = info.get(0);
+		this.cost = Integer.parseInt(info.get(1));
+		this.level = Integer.parseInt(info.get(2));
+		this.Damage = Integer.parseInt(info.get(3));
+		this.ManaCost = Integer.parseInt(info.get(4));
+		if(type == 2) {this.type = "Fire";}
+		else if(type == 3) {this.type = "Ice";}
+		else {this.type = "Lighting";}
 	}
 	
-	//get firing spell info
-	public ArrayList<ArrayList<String>> getFire(){
-		return this.FireSpell;
-	}
-	
-	//get ice spell information
-	public ArrayList<ArrayList<String>> getIce(){
-		return this.IceSpell;
-	}
-	
-	//get lightning spell informaiton
-	public ArrayList<ArrayList<String>> getLightning(){
-		return this.LightningSpell;
-	}
+	public int getDamage() {return this.Damage;}
+	public String getName() {return this.name;}
+	public int getLevel() {return this.level;}
+	public int getCost() {return this.cost;}
+	public int getManaCost() {return this.ManaCost;}
+	public String getType() {return this.type;}
 
 }

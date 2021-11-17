@@ -52,7 +52,7 @@ public class AskInput {
 
     public static ArrayList<ArrayList<String>> read(String filename) {
         String delimAlias = "/";
-        String delimData = "[  ]+";
+        String delimData = "\\s+";
         String file = System.getProperty("user.dir") + "/src/ConfigFiles/" + filename;
         List<String> lines = Collections.emptyList();
         ArrayList<ArrayList<String>> result = new ArrayList<ArrayList<String>>();
@@ -73,6 +73,27 @@ public class AskInput {
         }
         return result;
     }
+
+    //Ask which item to purchase in market menu
+    public static int askpurchase() {
+        System.out.println("(enter item code to purchase or 30 to quit)");
+        int choice = 0;
+        while(true) {
+            try {
+                Scanner file = new Scanner(System.in);
+                choice = file.nextInt();
+                while(choice<0 || choice>30) {
+                    System.out.println("(Error Purchase)You have to input a number between 0 - 30, enter again:");
+                    choice = file.nextInt();
+                }
+                break;
+            }catch(InputMismatchException|NumberFormatException ex){
+                System.out.println("(Error Purchase)You have to input a number between 0 - 30, enter again:");
+            }
+        }
+        return choice;
+    }
+
 
 
 }

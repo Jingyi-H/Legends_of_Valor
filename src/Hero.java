@@ -21,7 +21,12 @@ public abstract class Hero {
     Bag bag;
 
     public Hero() {
-
+        this.level = 1;
+        this.maxHp = this.hp = this.level * 100;
+        this.defense = 0;
+        this.bag = new Bag();
+        this.emptyHands = HANDS;
+        this.weapon = new ArrayList<>();
     }
 
     public Hero(String name, int mana, int strength, int agility, int dexterity, int starting_money, int starting_exp) {
@@ -45,7 +50,7 @@ public abstract class Hero {
         //split by any amount of whitespace using regex sourced from: https://javarevisited.blogspot.com/2016/10/how-to-split-string-in-java-by-whitespace-or-tabs.html
         this.name = attrs.get(0);
         this.mana = Integer.parseInt(attrs.get(1));
-        this.strength = Integer.parseInt(attrs.get(2);
+        this.strength = Integer.parseInt(attrs.get(2));
         this.agility = Integer.parseInt(attrs.get(3));
         this.dexterity = Integer.parseInt(attrs.get(4));
         this.money = Integer.parseInt(attrs.get(5));
@@ -53,12 +58,12 @@ public abstract class Hero {
     }
 
     public int attack() {
-        int hurtValue = getStrength();
+        int hurtValue = this.strength;
         if (getWeapon().size() > 0) {
             for (Weapon w : getWeapon())
                 hurtValue += w.getDamage();
         }
-        hurtValue = (int)(hurtValue * 0.05);
+        hurtValue = (int)(hurtValue * 0.05);    // TODO: params
         System.out.println("[Hero] " + getName() + "> regular attack: damage = " + hurtValue);
 
         return hurtValue;
@@ -66,46 +71,53 @@ public abstract class Hero {
 
     public void heal(Potion potion) {
         //capped
-        int healValue = potion.getAttrIncrease();
+        int healValue = potion.getAffect();
         // TODO: mana/skills increase
-        if (potion.flags[0]) {
+        if (potion.getAttribute()[0]) {
             int hp = this.hp + healValue;
             if (hp > maxHp) {
                 hp = maxHp;
             }
             this.hp = hp;
         }
-        if (potion.flags[1])
+        if (potion.getAttribute()[1])
             mana += healValue;
-        if (potion.flags[2])
+        if (potion.getAttribute()[2])
             strength += healValue;
-        if (potion.flags[3])
+        if (potion.getAttribute()[3])
             dexterity += healValue;
-        if (potion.flags[4])
+        if (potion.getAttribute()[4])
             defense += healValue;
-        if (potion.flags[5])
+        if (potion.getAttribute()[5])
             agility += healValue;
     }
 
     public int castSpell(Spell spell) {
-        // deduct mana
-        this.mana = this.mana - spell.getMana();
-        System.out.println("[Hero] " + getName() + "> " + spell.type.toString() + "SPELL damage=" + spell.damage);
+        if (this.mana < spell.getManaCost()) {
+            System.out.println("Failed: " + name + " does not have enough mana to cast this spell!");
+            return 0;
+        }
+        // reduce mana
+        this.mana = this.mana - spell.getManaCost();
+        System.out.println("[Hero] " + name + "> " + spell.getType() + "SPELL damage=" + spell.getDamage());
         // return the damage it causes
-        return spell.damage;
-
+        return spell.getDamage();
     }
 
     public void defend(int val) {
         // defend from monster attack
         int hurt = val;
         if (armor != null)
-            hurt -= armor.getDamageDeduction();
+            hurt -= armor.getDamageReduction();
         if (hurt < 0) {
             System.out.print("[Hero] " + this.name + ": hp-0");
         }
         else {
-            setHp(this.hp - hurt);
+            int currentHp = this.hp - hurt;
+            if (currentHp < 0) {
+                currentHp = 0;
+            }
+            setHp(currentHp);
             System.out.print("[Hero] " + this.name + ": hp-" + hurt);
         }
         System.out.println(" current hp: " + this.hp);
@@ -123,18 +135,18 @@ public abstract class Hero {
     public void unloadWeapon(int idx) {
         // unload the weapon of idx
         Weapon unload = weapon.remove(idx);
-        bag.getWeaponList().add(unload);
-        emptyHands += unload.requiredHands;
+        bag.getWeaponInventory().add(unload);
+        emptyHands += unload.getHandsRequired();
     }
 
     public void equipWeapon(int idx) {
         // check hands before equip new weapons
-        Weapon equip = bag.getWeaponList().remove(idx);
-        emptyHands = emptyHands - equip.requiredHands;
+        Weapon equip = bag.getWeaponInventory().remove(idx);
+        emptyHands = emptyHands - equip.getHandsRequired();
     }
 
     public String toString() {
-        return super.toString() + "  exp: " + exp + "  mana: " + mana + "  balance: $" + money;
+        return name + "  exp: " + exp + "  hp: " + hp + "  mana: " + mana + "  balance: $" + money;
     }
 
     protected void levelUp() {
@@ -195,6 +207,8 @@ public abstract class Hero {
         this.level = level;
     }
 
+    public void resetHp() { this.hp = this.maxHp;}
+
     public int getHp() {
         return hp;
     }
@@ -203,13 +217,6 @@ public abstract class Hero {
         this.hp = hp;
     }
 
-    public int getMaxHp() {
-        return maxHp;
-    }
-
-    public void setMaxHp(int maxHp) {
-        this.maxHp = maxHp;
-    }
 
     public Bag getBag() {
         return bag;
@@ -274,35 +281,30 @@ public abstract class Hero {
         return weapon;
     }
 
-    public void setWeapon(List<Weapon> weapon) {
-        this.weapon = weapon;
+    // TODO: add/remove attributes methods
+    public void addStrength(double increment) {
+
     }
 
-    public int getDexterity() {
-        return dexterity;
+    public void addDexterity(double increment) {
+        this.dexterity = (int)(this.dexterity * (1 + increment));
     }
 
-    private void setDexterity(int dexterity) {
-        this.dexterity = dexterity;
+    public void addAgility(double increment) {
+        this.agility = (int)(this.agility * (1 + increment));
     }
 
-    public int getStrength() {
-        return strength;
+    public void removeStrength(double increment) {
+        this.strength = (int)(this.strength / (1 + increment));
     }
 
-    private void setStrength(int strength) {
-        this.strength = strength;
+    public void removeDexterity(double increment) {
+        this.dexterity = (int)(this.dexterity / (1 + increment));
     }
 
-    public int getAgility() {
-        return agility;
+    public void removeAgility(double increment) {
+        this.agility = (int)(this.agility / (1 + increment));
     }
-
-    private void setAgility(int agility) {
-        this.agility = agility;
-    }
-
-
 
 
 }
