@@ -1,10 +1,11 @@
-import java.util.ArrayList;
-import java.util.HashMap;
+import java.util.*;
+import java.util.concurrent.ThreadLocalRandom;
 
 public class LOVBoard {
     private Cell[][] cells;
     private HashMap<Hero, int[]> heros;
     private HashMap<Monster, int[]> monsters;
+    private LOVWindow window;
 
     // constructors
     public LOVBoard(int rows, int cols) {
@@ -17,6 +18,32 @@ public class LOVBoard {
 
     public LOVBoard() {
         this(8);
+        // Init nexus cells
+        for (int i= 0; i < 8; i++) {
+            this.cells[0][i] = new NexusCell();
+            this.cells[7][i] = new NexusCell();
+        }
+        // Init inaccessible cells
+        for (int i = 0; i < 8; i++) {
+            this.cells[i][2] = new InaccessibleCell();
+            this.cells[i][5] = new InaccessibleCell();
+        }
+        // Add Plain Cell / Bush Cell / Cave Cell / Koulou Cell
+        for (int i = 1; i < 7; i++) {
+            for (int j = 0; j < 8; j++) {
+                if (j != 2 && j != 5) {
+                    int randomNum = ThreadLocalRandom.current().nextInt(1, 5);
+                    int random = ThreadLocalRandom.current().nextInt(1, 5);
+                    switch (random) {
+                        case 1: this.cells[i][j] = new PlainCell(); break;
+                        case 2: this.cells[i][j] = new BushCell();  break;
+                        case 3: this.cells[i][j] = new CaveCell();  break;
+                        case 4: this.cells[i][j] = new KoulouCell();break;
+                    }
+                }
+            }
+        }
+        this.window = new LOVWindow();
     }
 
     // getters
@@ -43,7 +70,26 @@ public class LOVBoard {
 
     // others
     public void print() {
-        // TODO
+        for (int i = 0; i < 8; i++) {
+            for (int j = 0; j < 8; j++) {
+                window.drawCell(i+1, j+1, this.cells[i][j].getMarker());
+            }
+        }
+        for (Hero hero : this.heros.keySet()) {
+            int[] pos = this.heros.get(hero);
+            ArrayList<String> marker = new ArrayList<>();
+            marker.add(" xx ");
+            marker.add("    ");
+            window.drawCell(pos[0]+1, pos[1]+1, marker);
+        }
+        for (Monster monster : this.monsters.keySet()) {
+            int[] pos = this.monsters.get(monster);
+            ArrayList<String> marker = new ArrayList<>();
+            marker.add(" oo ");
+            marker.add("    ");
+            window.drawCell(pos[0]+1, pos[1]+1, marker);
+        }
+        window.display();
     }
 
     public void addCharacter(Hero hero) {
@@ -135,5 +181,32 @@ public class LOVBoard {
         if (ver) return true;
         if (hor) return true;
         return false;
+    }
+
+    public String getCellName(Hero hero) {
+        int[] pos = this.heros.get(hero);
+        int row = pos[0];
+        int col = pos[1];
+        Cell cell = this.cells[row][col];
+        return cell.getName();
+    }
+
+    public void HeroRevive(Hero hero) {
+        int[] pos = this.heros.get(hero);
+        int row = pos[0];
+        int col = pos[1];
+        int newrow = 7;
+        int lane = col / 3;
+        int newcol = lane * 3;
+        int[] newpos = {newrow, newcol};
+        this.heros.replace(hero, newpos);
+    }
+
+    public void MonsterDie(Monster monster) {
+        this.monsters.remove(monster);
+    }
+
+    public void teleport() {
+        // TODO
     }
 }
