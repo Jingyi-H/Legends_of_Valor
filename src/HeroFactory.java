@@ -7,9 +7,9 @@ public class HeroFactory {
     static final int SORCERER = 2;
     static final int PALADIN = 3;
     static final int BACK = 0;
-    static final String WARRIOR_MENU = Path.WARRIOR.toString();
-    static final String SORCERER_MENU = Path.SORCERER.toString();
-    static final String PALADIN_MENU = Path.PALADIN.toString();
+    static final String WARRIOR_MENU = "Warriors.txt";
+    static final String SORCERER_MENU = "Sorcerers.txt";
+    static final String PALADIN_MENU = "Paladins.txt";
 
 
     public HeroFactory() {
@@ -51,20 +51,22 @@ public class HeroFactory {
                 newHero = getWarrior(warriorList.get(id - 1));
                 break;
             case SORCERER:
-//                printMenu(SORCERER);
-//                id = AskInput.askInt(0, Utils.getTtlLinesFromFile(SORCERER_MENU, 1));
-//                if (id == 0) {
-//                    return null;
-//                }
-//                newHero = getSorcerer(id);
-//                break;
-            case PALADIN:
-                printMenu(PALADIN);
-                id = AskInput.askInt(0, Utils.getTtlLinesFromFile(PALADIN_MENU, 1));
+                ArrayList<ArrayList<String>> sorcererList = AskInput.read(SORCERER_MENU);
+                printMenu(sorcererList);
+                id = AskInput.askInt(0, sorcererList.size());
                 if (id == 0) {
                     return null;
                 }
-                newHero = getPaladin(id);
+                newHero = getSorcerer(sorcererList.get(id - 1));
+                break;
+            case PALADIN:
+                ArrayList<ArrayList<String>> paladinList = AskInput.read(PALADIN_MENU);
+                printMenu(paladinList);
+                id = AskInput.askInt(0, paladinList.size());
+                if (id == 0) {
+                    return null;
+                }
+                newHero = getPaladin(paladinList.get(id - 1));
                 break;
                 default:
                     return null;
@@ -95,6 +97,8 @@ public class HeroFactory {
 
     private void printMenu(ArrayList<ArrayList<String>> heroList) {
         String menu;
+        // TODO: print
+        System.out.println("Name/mana/strength/agility/dexterity/starting money/starting experience");
         for (int i = 0; i < heroList.size(); i++) {
             System.out.print((i + 1) + ": ");
             for (String s : heroList.get(i)) {

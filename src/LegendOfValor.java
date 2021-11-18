@@ -1,47 +1,47 @@
 import java.util.ArrayList;
 
 public class LegendOfValor {
-	
+
 	private LOVBoard gameboard;
 	private Market market;
 	private Hero[] team;
 	private String move;
 	private int round;
 	private ArrayList<Monster> monsters;
-	
-	
-	
+
+
+
 
 	public LegendOfValor() {
-		
+
 		System.out.println("Welcome to the World of Legend of Valor");
 		this.gameboard = new LOVBoard();
 		this.team = new Hero[3];
-		this.round = 0; 
-		
+		this.round = 0;
+
 		runGame();
 	}
-	
+
 	public void runGame() {
-		
+
 		for(int i=0;i<3;i++) {
 			this.team[i] = AskInput.askHero();
 		}
-		
+
 		this.gameboard.addPosition(this.team[0]);
 		this.gameboard.addPosition(this.team[1]);
 		this.gameboard.addPosition(this.team[2]);
-		
+
 		while(true) {
 			this.round += 1;
 			round();
 		}
-		
+
 	}
-	
-	
+
+
 	public void round() {
-		
+
 		//check movable
 		if(this.round % 8 == 0) {
 			for(int i = 0; i<3;i++) {
@@ -61,13 +61,33 @@ public class LegendOfValor {
 				if(this.move.equals("q")) {System.out.println("End Game");System.exit(0);}
 				//open character information
 				if(this.move.equals("i")){
-					Action a = new ChangeEquipAction(this.team[i]);
-					a.execute();
+				    // TODO: show info
+                    System.out.println(this.team[i].getBag());
+                    while(true) {
+                        System.out.println("> Select your actions:");
+                        System.out.println("1: Change Equipment");
+                        System.out.println("2: Use potions");
+                        System.out.println("Enter 0 to quit.");
+                        int id = AskInput.askInt(0, 2);
+                        if(id == 0) {
+                            break;
+                        }
+                        else {
+                            if (id == 1) {
+                                Action a = new ChangeEquipAction(this.team[i]);
+                                a.execute();
+                            }
+                            else if (id == 2) {
+                                Action a = new HealAction(this.team[i]);
+                                a.execute();
+                            }
+                        }
+                    }
 				}
 				if(this.gameboard.checkMovable(this.team[i],this.move)) {break;}
 				else {System.out.println("Place cannot be reached, please make another move");}
 			}
-			
+
 			//
 			int incident = this.gameboard.checkEvent(this.team[i]);
 			if(incident == 0) {this.team[i] = PurchaseHelper.purchase(this.team[i], market);}
@@ -75,33 +95,33 @@ public class LegendOfValor {
 				BattleHelper.battle(this.team[i], this.gameboard.whichMonster(this.team[i]));
 			}
 			else {}
-			
+
 		}
 		if(checkend()==true) {System.exit(0);}
-		
-		
+
+
 		for(Monster i: this.monsters) {
-			
+
 			this.gameboard.move(i);
 			int incident = this.gameboard.checkEvent(i);
 			if(incident == 0) {BattleHelper.battle(i,this.gameboard.whichHero(i));}
 			else{}
 
-			
-		}
-		
-		if(checkEnd()==true) {System.exit(0);}
-		
-		
-		
-		
-		
-		
 
-		
-		
+		}
+
+		if(checkEnd()==true) {System.exit(0);}
+
+
+
+
+
+
+
+
+
 	}
-	
+
 	public boolean checkEnd() {
 		return false;
 	}

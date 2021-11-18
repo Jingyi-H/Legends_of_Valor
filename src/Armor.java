@@ -1,19 +1,23 @@
 import java.util.ArrayList;
 
-
-
 public class Armor {
-	//armor information
-	private ArrayList<ArrayList<String>> items;
 	
-	//default constructor
-	public Armor() {
-		this.items = AskInput.read("Armory.txt");		
+	private int DamageReduction;
+	private String name;
+	private int level;
+	private int cost;
+	
+	public Armor(ArrayList<String> info) {
+		this.name = info.get(0);
+		this.cost = Integer.parseInt(info.get(1));
+		this.level = Integer.parseInt(info.get(2));
+		this.DamageReduction = Integer.parseInt(info.get(3));
+		
 	}
 	
-	//get method
-	public ArrayList<ArrayList<String>> getItem(){
-		return this.items;
-	}
-	
+	public String getName() {return this.name;}
+	public int getLevel() {return this.level;}
+	public int getDamageReduction() {return this.DamageReduction;}
+	public int getCost() {return this.cost;}
+
 }

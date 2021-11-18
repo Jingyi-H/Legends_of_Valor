@@ -54,7 +54,7 @@ public class ChangeEquipAction extends Action {
     }
 
     private boolean equipWeapon() {
-        List<Weapon> weapons = hero.getBag().getWeaponList();
+        List<Weapon> weapons = hero.getBag().getWeaponInventory();
         if (weapons.size() == 0) {
             //if hero has no weapons
             System.out.println("Failed: Current hero does not have other weapons.");
@@ -65,7 +65,7 @@ public class ChangeEquipAction extends Action {
                 System.out.println("No empty hands now, please unload some of your weapons.");
                 unloadWeapon();
             }
-            weapons = hero.getBag().getWeaponList();
+            weapons = hero.getBag().getWeaponInventory();
             System.out.println("> Please select a weapon to equip:");
             for (int i = 0; i < weapons.size(); i++) {
                 System.out.println((i + 1) + ": " + weapons.get(i));
@@ -73,8 +73,8 @@ public class ChangeEquipAction extends Action {
             int id = AskInput.askInt(1, weapons.size()) - 1;
 
             // set current weapon
-            if (hero.getBag().getWeaponList().get(id).requiredHands < hero.emptyHands) {
-                System.out.println("Succeed: Equipped with [Weapon]" + hero.getBag().getWeaponList().get(id));
+            if (hero.getBag().getWeaponInventory().get(id).getHandsRequired() < hero.emptyHands) {
+                System.out.println("Succeed: Equipped with [Weapon]" + hero.getBag().getWeaponInventory().get(id));
                 hero.equipWeapon(id);
                 return true;
             }
@@ -85,7 +85,7 @@ public class ChangeEquipAction extends Action {
 
     private boolean equipArmor() {
         System.out.println("> Please select an armor to equip:");
-        List<Armor> armors = hero.getBag().getArmorList();
+        List<Armor> armors = hero.getBag().getArmorInventory();
         if (armors.size() == 0) {
             //if hero has no armors
             System.out.println("Failed: Current hero does not have other armors.");
@@ -99,9 +99,9 @@ public class ChangeEquipAction extends Action {
             // get current equipped armor and put it back to inventory
             Armor armor = hero.getArmor();
             if (armor != null)
-                hero.getBag().getArmorList().add(armor);
+                hero.getBag().getArmorInventory().add(armor);
             // set current armor
-            armor = hero.getBag().getArmorList().remove(id);
+            armor = hero.getBag().getArmorInventory().remove(id);
             hero.setArmor(armor);
             System.out.println("Succeed: Equipped with [Armor]" + armor);
         }
