@@ -117,7 +117,7 @@ public abstract class Hero {
             if (currentHp < 0) {
                 currentHp = 0;
             }
-            setHp(currentHp);
+            hp = currentHp;
             System.out.print("[Hero] " + this.name + ": hp-" + hurt);
         }
         System.out.println(" current hp: " + this.hp);
@@ -188,8 +188,15 @@ public abstract class Hero {
         }
     }
 
-    // getters and setters
+    public void win(int monsterLevel) {
+        int money = monsterLevel * 100;
+        int exp = monsterLevel * 10;
+        gainMoney(money);
+        gainExp(exp);
+    }
 
+
+    // getters and setters
 
     public String getName() {
         return name;
@@ -207,16 +214,11 @@ public abstract class Hero {
         this.level = level;
     }
 
-    public void resetHp() { this.hp = this.maxHp;}
+    public void resetHP() { this.hp = this.maxHp;}
 
-    public int getHp() {
+    public int getHP() {
         return hp;
     }
-
-    public void setHp(int hp) {
-        this.hp = hp;
-    }
-
 
     public Bag getBag() {
         return bag;
@@ -226,11 +228,7 @@ public abstract class Hero {
         return mana;
     }
 
-    public int getExp() {
-        return exp;
-    }
-
-    public void gainExp(int exp) {
+    private void gainExp(int exp) {
         setExp(exp + this.exp);
     }
 
