@@ -214,9 +214,9 @@ public abstract class Hero {
         this.level = level;
     }
 
-    public void resetHP() { this.hp = this.maxHp;}
+    public void resetHp() { this.hp = this.maxHp;}
 
-    public int getHP() {
+    public int getHp() {
         return hp;
     }
 

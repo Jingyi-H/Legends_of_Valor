@@ -4,15 +4,15 @@ import java.util.Scanner;
 
 public class BattleHelper {
 	
-	public static void battle(Hero hero, Monster monster, LOVBoard gameboard, ArrayList<Monster> monsters) {
+	public static void battle(Hero hero, Monster monster, LOVBoard gameboard, Market market) {
 		System.out.println("###########################################################################");
 		System.out.println("A Battle starts between "+ hero.getName() + " and "+ monster.getName());
 		
 		addingAttribute(hero, gameboard);
 		
 		while(true) {
-			if(hero.getHP() == 0) {System.out.println("Hero die and will be respawned in corresponding lane nexus");hero.resetHP();resetAttribute(hero, gameboard);break;}
-			if(monster.getHP() == 0) {System.out.println("Monster die and should be removed from monster arraylist");resetAttribute(hero, gameboard);break;}
+			if(hero.getHp() == 0) {gameboard.heroRevive(hero), hero.resetHp();resetAttribute(hero, gameboard);PurchaseHelper.purchase(hero, market);break;}
+			if(monster.getHp() == 0) {gameboard.monsterDie(monster);resetAttribute(hero, gameboard);hero.win(monster.getLevel());break;}
 			displaySituation(hero, monster);
 			
 			//Ask Hero Moves
@@ -45,9 +45,9 @@ public class BattleHelper {
 	
 	public static void heroAttack(Hero hero, Monster monster) {
 		
-		boolean dodge = monster.getDodge();
+		boolean dodge = monster.dodge();
 		if(dodge == true) {System.out.println(monster.getName() + " dodged your attack!");}
-		else {int hero_damage = hero.attack();monster.reduceHP(hero_damage);}
+		else {int hero_damage = hero.attack();monster.reduceHp(hero_damage);}
 		
 	}
 	
@@ -81,10 +81,10 @@ public class BattleHelper {
 			
 			
 			int damage = hero.castSpell(selected);
-			if(selected.getType().equals("Fire")) {monster.reduceDefence(0.2);}
+			if(selected.getType().equals("Fire")) {monster.reduceDefense(0.2);}
 			else if(selected.getType().equals("Ice")){monster.reduceDamage(0.2);}
 			else {monster.reduceDodge(0.2);}
-			monster.reduceHP(damage);			
+			monster.reduceHp(damage);
 		}
 	}
 	
@@ -105,7 +105,7 @@ public class BattleHelper {
 		
 		System.out.print(hero.getName());
 		System.out.print(" -- HP(");
-		System.out.print(hero.getHP());
+		System.out.print(hero.getHp());
 		System.out.print("), -- MANA(");
 		System.out.println(hero.getMana()+")");
 		
@@ -114,7 +114,7 @@ public class BattleHelper {
 		
 		System.out.print(monster.getName());
 		System.out.print(" -- HP(");
-		System.out.print(monster.getHP());
+		System.out.print(monster.getHp());
 		System.out.println(")");
 		
 		System.out.println("-----------------------------------------");
