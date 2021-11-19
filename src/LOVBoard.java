@@ -59,6 +59,14 @@ public class LOVBoard {
         return this.monsters.get(monster);
     }
 
+    public ArrayList<Monster> getMonsters() {
+        ArrayList<Monster> output = new ArrayList<>();
+        for (Monster monster : this.monsters.keySet()) {
+            output.add(monster);
+        }
+        return output;
+    }
+
     // setters
     public void setCells(Cell[][] cells) {
         this.cells = cells;
@@ -127,18 +135,20 @@ public class LOVBoard {
 
     public int checkEvent(Hero hero) {
         int[] pos = this.heros.get(hero);
-        if (pos[0] == 7) return 0;          // at nexus, trigger purchase event
+        if (pos[0] == 7) return 0;                          // at nexus, trigger purchase event
         for (Monster monster : this.monsters.keySet()) {
             if (checkNeighbor(hero, monster)) return 1;     // hero monster neighboring, trigger battle event
         }
-        return 2;                           // no event;
+        if (pos[0] == 0) return 2;                          // WIN!!! hero reach nexus;
+        return 3;                                           // nothing happens;
     }
 
     public int checkEvent(Monster monster) {
         for (Hero hero : this.heros.keySet()) {
             if (checkNeighbor(hero, monster)) return 1;     // hero monster neighboring, trigger battle event
         }
-        return 2;                           // no event;
+        if (this.monsters.get(monster)[0] == 7) return 2;   // LOSE!!! monster reach nexus
+        return 3;                                           // nothing happens;
     }
 
     public Monster selectOpponent(Hero hero) {
@@ -206,7 +216,70 @@ public class LOVBoard {
         this.monsters.remove(monster);
     }
 
-    public void teleport() {
-        // TODO
+    public boolean teleport(Hero hero, int[] targetPos) {
+        // check target position is within board boundary
+        if (targetPos[0]<0 || targetPos[0]>7 || targetPos[1]<0 || targetPos[1]>7) {
+            System.out.println("You can't teleport outside the map");
+            return false;
+        }
+        // check target position is not inaccessible cell
+        String celltype = this.cells[targetPos[0]][targetPos[1]].getName();
+        if (celltype.equals("InaccessibleCell")) {
+            System.out.println("You can't teleport to an inaccessible cell");
+            return false;
+        }
+        // check target position is not occupied
+        for (Hero h : this.heros.keySet()) {
+            int[] p = this.heros.get(h);
+            if (targetPos[0] == p[0] && targetPos[1] == p[1]) {
+                System.out.println("Sorry, teleport position is occupied.");
+                return false;
+            }
+        }
+        for (Monster m : this.monsters.keySet()) {
+            int[] p = this.monsters.get(m);
+            if (targetPos[0] == p[0] && targetPos[1] == p[1]) {
+                System.out.println("Sorry, teleport position is occupied.");
+                return false;
+            }
+        }
+        // check same lane hero
+        // make sure the teleport position is behind or beside the current position of the hero on the target lane
+        int targetLane = targetPos[1] / 3;
+        ArrayList<Hero> targetLaneHeros = new ArrayList<Hero>();
+        for (Hero h : this.heros.keySet()) {
+            int[] p = this.heros.get(h);
+            int l = p[1] / 3;
+            if (l == targetLane) targetLaneHeros.add(h);
+        }
+        if (targetLaneHeros.size() == 0) {              // when target lane has no hero
+            // do nothing
+        } else if (targetLaneHeros.size() == 1) {       // when target lane has one hero
+            Hero hero1 = targetLaneHeros.get(0);
+            int[] pos1 = this.heros.get(hero1);
+            if (targetPos[0] < pos1[0]) {
+                System.out.println("Sorry, you can only teleport behind or beside hero on target lane.");
+                return false;
+            }
+        } else if (targetLaneHeros.size() == 2) {       // when target lane has two heros
+            Hero hero1 = targetLaneHeros.get(0);
+            Hero hero2 = targetLaneHeros.get(1);
+            int[] pos1 = this.heros.get(hero1);
+            int[] pos2 = this.heros.get(hero2);
+            Hero heroBehind = null;
+            if (pos1 <= pos2) {
+                heroBehind = hero2;
+            } else {
+                heroBehind = hero1;
+            }
+            int[] posBehind = this.heros.get(heroBehind);
+            if (targetPos[0] < posBehind[0]) {
+                System.out.println("Sorry, there are two heros on the target lane.");
+                System.out.println("You can only teleport behind or beside hero that's on the behind.");
+                return false;
+            }
+        }
+        this.heros.replace(hero, targetPos);
+        return true;
     }
 }
