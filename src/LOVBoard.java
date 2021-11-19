@@ -267,7 +267,7 @@ public class LOVBoard {
             int[] pos1 = this.heros.get(hero1);
             int[] pos2 = this.heros.get(hero2);
             Hero heroBehind = null;
-            if (pos1 <= pos2) {
+            if (pos1[0] <= pos2[0]) {
                 heroBehind = hero2;
             } else {
                 heroBehind = hero1;

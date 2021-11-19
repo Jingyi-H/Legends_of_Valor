@@ -11,7 +11,7 @@ public class BattleHelper {
 		addingAttribute(hero, gameboard);
 		
 		while(true) {
-			if(hero.getHp() == 0) {gameboard.heroRevive(hero), hero.resetHp();resetAttribute(hero, gameboard);PurchaseHelper.purchase(hero, market);break;}
+			if(hero.getHp() == 0) {gameboard.heroRevive(hero); hero.resetHp();resetAttribute(hero, gameboard);PurchaseHelper.purchase(hero, market);break;}
 			if(monster.getHp() == 0) {gameboard.monsterDie(monster);resetAttribute(hero, gameboard);hero.win(monster.getLevel());break;}
 			displaySituation(hero, monster);
 			

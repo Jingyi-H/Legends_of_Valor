@@ -48,7 +48,7 @@ public class LegendOfValor {
 			for(int i = 0; i<3;i++) {
 				// TODO: Monster needs to be the same level as hero
 				int monsterLevel = getHighest(this.team);
-				Monster current = monsterFactory.getMonster(getRandomNumber(1, 3), monsterLevel));
+				Monster current = monsterFactory.getMonster(getRandomNumber(1, 3), monsterLevel);
 				this.gameboard.addCharacter(current);
 			}
 		}
@@ -88,6 +88,7 @@ public class LegendOfValor {
 				}
 				if(this.move.equals("t")) {
 					// TODO: teleport
+
 					if(this.gameboard.teleport(this.team[i])) {break;}
 				}
 				else if(this.gameboard.checkMovable(this.team[i],this.move)) {break;}
@@ -100,7 +101,8 @@ public class LegendOfValor {
 			else if (incident == 1) {
 				BattleHelper.battle(this.team[i], this.gameboard.selectOpponent(this.team[i]), this.gameboard, this.market);
 			}
-			else {System.out.println("The hero team won!"); System.exit(0);}
+			else if (incident == 2) {System.out.println("The hero team won!"); System.exit(0);}
+
 
 		}
 
@@ -111,7 +113,7 @@ public class LegendOfValor {
 			if (incident == 1) {
 				BattleHelper.battle(this.gameboard.selectOpponent(i), i, this.gameboard, this.market);
 			}
-			else {
+			else if (incident == 2) {
 				System.out.println("The monster team won!");
 				System.exit(0);
 			}
