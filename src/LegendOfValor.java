@@ -7,7 +7,7 @@ public class LegendOfValor {
 	private Hero[] team;
 	private String move;
 	private int round;
-	private ArrayList<Monster> monsters;
+	private MonsterFactory monsterFactory;
 
 
 
@@ -18,6 +18,7 @@ public class LegendOfValor {
 		this.gameboard = new LOVBoard();
 		this.team = new Hero[3];
 		this.round = 0;
+		this.market = new Market();
 
 		runGame();
 	}
@@ -26,15 +27,15 @@ public class LegendOfValor {
 
 		for(int i=0;i<3;i++) {
 			this.team[i] = AskInput.askHero();
+			PurchaseHelper.purchase(this.team[i], this.market);
 		}
-
-		this.gameboard.addPosition(this.team[0]);
-		this.gameboard.addPosition(this.team[1]);
-		this.gameboard.addPosition(this.team[2]);
-
+		// initiate coordinates of hero groups
+		this.gameboard.addCharacter(this.team[0]);
+		this.gameboard.addCharacter(this.team[1]);
+		this.gameboard.addCharacter(this.team[2]);
 		while(true) {
-			this.round += 1;
 			round();
+			this.round += 1;
 		}
 
 	}
@@ -45,14 +46,14 @@ public class LegendOfValor {
 		//check movable
 		if(this.round % 8 == 0) {
 			for(int i = 0; i<3;i++) {
-				// TODO: Monster
-				Monster current = new Monster();
-				this.monsters.add(current);
-				this.gameboard.addPosition(current);
+				// TODO: Monster needs to be the same level as hero
+				int monsterLevel = getHighest(this.team);
+				Monster current = monsterFactory.getMonster(getRandomNumber(1, 3), monsterLevel));
+				this.gameboard.addCharacter(current);
 			}
 		}
 		this.gameboard.print();
-		System.out.println();//Zhu's Assignment map explanation
+		System.out.println();// TODO: Zhu's Assignment map explanation
 		for(int i = 0; i<3;i++) {
 			System.out.println(team[i].getName() + " please make your move");
 			while(true) {
@@ -62,7 +63,8 @@ public class LegendOfValor {
 				//open character information
 				if(this.move.equals("i")){
 				    // TODO: show info
-                    System.out.println(this.team[i].getBag());
+					System.out.println(this.team[i].toString());
+					System.out.println(this.team[i].getBag());
                     while(true) {
                         System.out.println("> Select your actions:");
                         System.out.println("1: Change Equipment");
@@ -84,46 +86,57 @@ public class LegendOfValor {
                         }
                     }
 				}
-				if(this.gameboard.checkMovable(this.team[i],this.move)) {break;}
+				if(this.move.equals("t")) {
+					// TODO: teleport
+					if(this.gameboard.teleport(this.team[i])) {break;}
+				}
+				else if(this.gameboard.checkMovable(this.team[i],this.move)) {break;}
 				else {System.out.println("Place cannot be reached, please make another move");}
 			}
 
 			//
 			int incident = this.gameboard.checkEvent(this.team[i]);
-			if(incident == 0) {this.team[i] = PurchaseHelper.purchase(this.team[i], market);}
+			if(incident == 0) {PurchaseHelper.purchase(this.team[i], market);}
 			else if (incident == 1) {
-				BattleHelper.battle(this.team[i], this.gameboard.whichMonster(this.team[i]));
+				BattleHelper.battle(this.team[i], this.gameboard.selectOpponent(this.team[i]), this.gameboard, this.market);
 			}
-			else {}
+			else {System.out.println("The hero team won!"); System.exit(0);}
 
 		}
-		if(checkend()==true) {System.exit(0);}
 
-
-		for(Monster i: this.monsters) {
-
+		for(Monster i: this.gameboard.getMonsters()) {
+			// monster i moves
 			this.gameboard.move(i);
 			int incident = this.gameboard.checkEvent(i);
-			if(incident == 0) {BattleHelper.battle(i,this.gameboard.whichHero(i));}
-			else{}
-
-
+			if (incident == 1) {
+				BattleHelper.battle(this.gameboard.selectOpponent(i), i, this.gameboard, this.market);
+			}
+			else {
+				System.out.println("The monster team won!");
+				System.exit(0);
+			}
 		}
 
-		if(checkEnd()==true) {System.exit(0);}
+	}
 
+	private int getRandomNumber(int min, int max) {
+		return (int) ((Math.random() * (max - min)) + min);
+	}
 
-
-
-
-
-
-
-
+	public int getHighest(Hero[] heroes) {
+		int max = 0;
+		for (Hero h : heroes) {
+			if (h.getLevel() > max) {
+				max = h.getLevel();
+			}
+		}
+		return max;
 	}
 
 	public boolean checkEnd() {
 		return false;
 	}
+
+
 
 }
