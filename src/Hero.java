@@ -72,7 +72,6 @@ public abstract class Hero {
     public void heal(Potion potion) {
         //capped
         int healValue = potion.getAffect();
-        // TODO: mana/skills increase
         if (potion.getAttribute()[0]) {
             int hp = this.hp + healValue;
             if (hp > maxHp) {
@@ -279,9 +278,8 @@ public abstract class Hero {
         return weapon;
     }
 
-    // TODO: add/remove attributes methods
     public void addStrength(double increment) {
-
+        this.strength = (int)(this.strength * (1 + increment));
     }
 
     public void addDexterity(double increment) {

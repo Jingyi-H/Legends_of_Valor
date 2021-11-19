@@ -88,8 +88,8 @@ public class LegendOfValor {
 				}
 				if(this.move.equals("t")) {
 					// TODO: teleport
-
-					if(this.gameboard.teleport(this.team[i])) {break;}
+					int[] coord = AskInput.askCoordinates(0, 8);
+					if(this.gameboard.teleport(this.team[i], coord)) {break;}
 				}
 				else if(this.gameboard.checkMovable(this.team[i],this.move)) {break;}
 				else {System.out.println("Place cannot be reached, please make another move");}
