@@ -6,9 +6,9 @@ public class MonsterFactory {
     static final int EXOSKELETON = 2;
     static final int SPIRIT = 3;
     static final int BACK = 0;
-    static final String DRAGON_MENU = Path.DRAGON.toString();
-    static final String EXOSKELETON_MENU = Path.EXOSKELETON.toString();
-    static final String SPIRIT_MENU = Path.SPIRIT.toString();
+    static final String DRAGON_MENU = "Dragons.txt";
+    static final String EXOSKELETON_MENU = "Exoskeletons.txt";
+    static final String SPIRIT_MENU = "Spirits.txt";
 
     public MonsterFactory() {}
 
