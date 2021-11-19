@@ -1,168 +1,10 @@
 import java.util.ArrayList;
-import java.util.InputMismatchException;
-import java.util.Scanner;
 
 
 
 
 
 public class PurchaseHelper {
-	
-	public static void sell(Hero hero) {
-		while(true) {
-			System.out.println("What do you want to sell: 1 -- Armor, 2 -- Weapon, 3 -- Spell, 4 -- Potion, 5 -- quit");
-			int choice = AskInput.askSell();
-			if(choice == 5) {break;}
-			if(choice == 1) {sellArmor(hero);}
-			else if(choice == 2) {sellWeapon(hero);}
-			else if(choice == 3) {sellSpell(hero);}
-			else {sellPotion(hero);}
-		}
-	}
-	
-	public static void sellArmor(Hero hero) {
-		if(hasArmor(hero)==false) {System.out.println("You don't have any Armor");}
-		else {
-			int size = hero.getBag().getArmorInventory().size();
-			for(int i = 1; i<size+1;i++) {
-				System.out.print(i+" -- ");
-				System.out.println(hero.getBag().getArmorInventory().get(i).getName() + "("+hero.getBag().getArmorInventory().get(i).getCost()/2 + ")");
-			}
-			System.out.println("Select your Armor to sell: (corresponding integer or 0 to quit)");
-			int choice = 0;
-			while(true) {
-				try {
-					Scanner file = new Scanner(System.in);
-					choice = file.nextInt();
-					while(choice<0 || choice>size) {
-						System.out.println("Armor index doesn't exist, enter again:");
-						choice = file.nextInt();
-					}
-					break;
-				}catch(InputMismatchException|NumberFormatException ex){
-					System.out.println("Armor index doesn't exist, enter again:");
-				}				
-			}
-			int money = hero.getBag().getArmorInventory().get(choice - 1).getCost()/2;
-			hero.gainMoney(money);
-			hero.getBag().getArmorInventory().remove(choice -1);
-		}
-	}
-	public static void sellWeapon(Hero hero) {
-		if(hasWeapon(hero)==false) {System.out.println("You don't have any Weapon");}
-		else {
-			int size = hero.getBag().getWeaponInventory().size();
-			for(int i = 1; i<size+1;i++) {
-				System.out.print(i+" -- ");
-				System.out.println(hero.getBag().getWeaponInventory().get(i).getName() + "("+hero.getBag().getWeaponInventory().get(i).getCost()/2 + ")");
-			}
-			System.out.println("Select your Weapon to sell: (corresponding integer or 0 to quit)");
-			int choice = 0;
-			while(true) {
-				try {
-					Scanner file = new Scanner(System.in);
-					choice = file.nextInt();
-					while(choice<0 || choice>size) {
-						System.out.println("Weapon index doesn't exist, enter again:");
-						choice = file.nextInt();
-					}
-					break;
-				}catch(InputMismatchException|NumberFormatException ex){
-					System.out.println("Weapon index doesn't exist, enter again:");
-				}				
-			}
-			int money = hero.getBag().getWeaponInventory().get(choice - 1).getCost()/2;
-			hero.gainMoney(money);
-			hero.getBag().getWeaponInventory().remove(choice -1);
-		}
-	}
-	public static void sellSpell(Hero hero) {
-		if(hasSpell(hero)==false) {System.out.println("You don't have any Spell");}
-		else {
-			int size = hero.getBag().getSpellInventory().size();
-			for(int i = 1; i<size+1;i++) {
-				System.out.print(i+" -- ");
-				System.out.println(hero.getBag().getSpellInventory().get(i).getName() + "("+hero.getBag().getSpellInventory().get(i).getCost()/2 + ")");
-			}
-			System.out.println("Select your Spell to sell: (corresponding integer or 0 to quit)");
-			int choice = 0;
-			while(true) {
-				try {
-					Scanner file = new Scanner(System.in);
-					choice = file.nextInt();
-					while(choice<0 || choice>size) {
-						System.out.println("Spell index doesn't exist, enter again:");
-						choice = file.nextInt();
-					}
-					break;
-				}catch(InputMismatchException|NumberFormatException ex){
-					System.out.println("Spell index doesn't exist, enter again:");
-				}				
-			}
-			int money = hero.getBag().getSpellInventory().get(choice - 1).getCost()/2;
-			hero.gainMoney(money);
-			hero.getBag().getSpellInventory().remove(choice -1);
-		}
-	}
-	
-	public static void sellPotion(Hero hero) {
-		if(hasPotion(hero)==false) {System.out.println("You don't have any Potion");}
-		else {
-			int size = hero.getBag().getPotionInventory().size();
-			for(int i = 1; i<size+1;i++) {
-				System.out.print(i+" -- ");
-				System.out.println(hero.getBag().getPotionInventory().get(i).getName() + "("+hero.getBag().getPotionInventory().get(i).getCost()/2 + ")");
-			}
-			System.out.println("Select your Potion to sell: (corresponding integer or 0 to quit)");
-			int choice = 0;
-			while(true) {
-				try {
-					Scanner file = new Scanner(System.in);
-					choice = file.nextInt();
-					while(choice<0 || choice>size) {
-						System.out.println("Potion index doesn't exist, enter again:");
-						choice = file.nextInt();
-					}
-					break;
-				}catch(InputMismatchException|NumberFormatException ex){
-					System.out.println("Potion index doesn't exist, enter again:");
-				}				
-			}
-			int money = hero.getBag().getPotionInventory().get(choice - 1).getCost()/2;
-			hero.gainMoney(money);
-			hero.getBag().getPotionInventory().remove(choice -1);
-		}
-	}
-	
-	
-	public static boolean hasSpell(Hero hero) {
-		
-		int count = hero.getBag().getSpellInventory().size();
-		if(count == 0) {return false;}
-		else {return true;}
-		
-	}
-	public static boolean hasArmor(Hero hero) {
-		
-		int count = hero.getBag().getArmorInventory().size();
-		if(count == 0) {return false;}
-		else {return true;}
-		
-	}
-	public static boolean hasWeapon(Hero hero) {
-		
-		int count = hero.getBag().getWeaponInventory().size();
-		if(count == 0) {return false;}
-		else {return true;}
-		
-	}
-	public static boolean hasPotion(Hero hero) {
-		
-		int count = hero.getBag().getPotionInventory().size();
-		if(count == 0) {return false;}
-		else {return true;}
-		
-	}
 	
 	public static void purchase(Hero hero, Market market) {
 		System.out.println("####################################################");
@@ -172,8 +14,7 @@ public class PurchaseHelper {
 		System.out.println(", please make your purchase or quit:"+ "("+hero.getMoney()+" remain money"+")");
 		while(true) {
 			int choice = AskInput.askpurchase();
-			if(choice == 30) {sell(hero);}
-			if(choice == 31) {break;}
+			if(choice == 30 ) {break;}
 			int choiceindex = purchaseindex(choice);
 			ArrayList<ArrayList<String>> division = purchaseDivision(choice,market);
 			if(buyable(choiceindex,division,hero)) {
