@@ -201,7 +201,7 @@ public class LOVBoard {
         return cell.getName();
     }
 
-    public void HeroRevive(Hero hero) {
+    public void heroRevive(Hero hero) {
         int[] pos = this.heros.get(hero);
         int row = pos[0];
         int col = pos[1];
@@ -212,7 +212,7 @@ public class LOVBoard {
         this.heros.replace(hero, newpos);
     }
 
-    public void MonsterDie(Monster monster) {
+    public void monsterDie(Monster monster) {
         this.monsters.remove(monster);
     }
 
