@@ -1,6 +1,7 @@
 import java.util.ArrayList;
 import java.util.List;
 
+// For creations of heroes, enable players to select heroes
 public class HeroFactory {
     // for creating heros
     static final int WARRIOR = 1;

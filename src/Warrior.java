@@ -1,3 +1,4 @@
+// subclass of Hero, override levelUp()
 public class Warrior extends Hero {
 
     public Warrior() {

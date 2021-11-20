@@ -8,7 +8,7 @@ public class BattleHelper {
 		System.out.println("###########################################################################");
 		System.out.println("A Battle starts between "+ hero.getName() + " and "+ monster.getName());
 		
-		addingAttribute(hero, gameboard);
+//		addingAttribute(hero, gameboard);
 		
 		while(true) {
 			if(hero.getHp() == 0) {gameboard.heroRevive(hero); hero.resetHp();resetAttribute(hero, gameboard);PurchaseHelper.purchase(hero, market);break;}

@@ -1,6 +1,7 @@
 import java.util.ArrayList;
 import java.util.List;
 
+// Game characters played by users
 public abstract class Hero {
     String name;
     int level;
@@ -39,7 +40,7 @@ public abstract class Hero {
         this.money = starting_money;
         // init
         this.level = 1;
-        this.maxHp = this.hp = this.level * 100;
+        this.maxHp = this.hp = this.level * 1000;
         this.defense = 0;
         this.bag = new Bag();
         this.emptyHands = HANDS;
@@ -61,9 +62,8 @@ public abstract class Hero {
         int hurtValue = this.strength;
         if (getWeapon().size() > 0) {
             for (Weapon w : getWeapon())
-                hurtValue += w.getDamage();
+                hurtValue += w.getDamage() * 0.05;
         }
-        hurtValue = (int)(hurtValue * 0.05);    // TODO: params
         System.out.println("[Hero] " + getName() + "> regular attack: damage = " + hurtValue);
 
         return hurtValue;
@@ -125,7 +125,7 @@ public abstract class Hero {
     }
 
     public boolean dodge() {
-        if (Math.random() < this.agility * 0.001) {
+        if (Math.random() < this.agility * 0.0005) {
             System.out.println("[Hero] " + this.name + " dodges the attack!");
             return true;
         }
