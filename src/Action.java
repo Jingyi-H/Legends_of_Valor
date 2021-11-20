@@ -1,14 +1,9 @@
 public abstract class Action {
     Hero hero;
-    // action of a character: hero/monster
+    // action of heroes
+    // super class of ChangeEquipAction, HealAction
 
-    public Action() {
-
-    }
-
-    public Action(Hero hero) {
-        this.hero = hero;
-    }
+    public Action() {}
 
     abstract boolean execute();
 

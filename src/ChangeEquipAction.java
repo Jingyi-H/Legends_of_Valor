@@ -1,5 +1,6 @@
 import java.util.List;
 
+// subclass of Action, for heroes to change their equipment: weapons/armors
 public class ChangeEquipAction extends Action {
     boolean exit;
     public ChangeEquipAction(Hero hero) {

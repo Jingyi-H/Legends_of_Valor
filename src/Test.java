@@ -1,18 +1,12 @@
 public class Test {
     public static void main(String[] args) {
         Hero h = AskInput.askHero();
-        for (int i = 0; i < 10 ; i++) {
-            h.levelUp();
-        }
-        Market m = new Market();
-        PurchaseHelper.purchase(h, m);
-        Action change = new ChangeEquipAction(h);
-        change.execute();
-
-        Action heal = new HealAction(h);
-        heal.execute();
-        h.printInfo();
-        h.printEquip();
+        MonsterFactory fac = new MonsterFactory();
+        Monster m = fac.getMonster(1, 3);
+        LOVBoard board = new LOVBoard();
+        board.addCharacter(h);
+        Market market = new Market();
+        BattleHelper.battle(h, m, board, market);
 
 
 

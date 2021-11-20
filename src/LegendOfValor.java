@@ -105,6 +105,7 @@ public class LegendOfValor {
 				System.out.println("Hero meets monster.");
 			}
 			else if (incident == 2) {System.out.println("The hero team won!"); System.exit(0);}
+			System.out.println("------------------------------------------");
 
 
 		}
@@ -113,6 +114,9 @@ public class LegendOfValor {
 			// monster i moves
 			this.gameboard.move(i);
 			int incident = this.gameboard.checkEvent(i);
+			this.gameboard.print();
+			System.out.println("the monster team makes a move");
+			System.out.println();
 			if (incident == 1) {
 				BattleHelper.battle(this.gameboard.selectOpponent(i), i, this.gameboard, this.market);
 			}

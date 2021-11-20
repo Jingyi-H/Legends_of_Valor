@@ -13,6 +13,7 @@ public abstract class Monster {
     public Monster(String name, int level, int damage, int defense, int dodgeChance) {
         this.name = name;
         this.level = level;
+//        this.hp = this.level * 100;
         this.damage = damage;
         this.defense = defense;
         this.dodgeChance = dodgeChance;
@@ -21,6 +22,7 @@ public abstract class Monster {
     public void setAttributes(List<String> attrs) {
         this.name = attrs.get(0);
         this.level = Integer.parseInt(attrs.get(1));
+        this.hp = this.level * 500;
         this.damage = Integer.parseInt(attrs.get(2));
         this.defense = Integer.parseInt(attrs.get(3));
         this.dodgeChance = Integer.parseInt(attrs.get(4));
