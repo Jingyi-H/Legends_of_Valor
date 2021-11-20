@@ -14,35 +14,41 @@ public class MonsterFactory {
 
     public MonsterFactory() {}
 
-    public Monster getMonster(int type, int id) {
-        Monster newMonster = selectMonster(type, id);
+    public Monster getMonster(int type, int level) {
+        Monster newMonster = selectMonster(type, level);
         return newMonster;
     }
 
 
-    private Monster selectMonster(int type, int id) {
-        Monster newMonster;
+    private Monster selectMonster(int type, int level) {
+        Monster newMonster = null;
         switch (type) {
             case DRAGON:
                 ArrayList<ArrayList<String>> dragonList = AskInput.read(DRAGON_MENU);
-                if (id == 0) {
-                    return null;
+                for (ArrayList<String> dragon : dragonList) {
+                    if (dragon.get(1).equals(String.valueOf(level))) {
+                        newMonster = getDragon(dragon);
+                        break;
+                    }
                 }
-                newMonster = getDragon(dragonList.get(id-1));
                 break;
             case EXOSKELETON:
                 ArrayList<ArrayList<String>> exoskeletonList = AskInput.read(EXOSKELETON_MENU);
-                if (id == 0) {
-                    return null;
+                for (ArrayList<String> exoskeleton : exoskeletonList) {
+                    if (exoskeleton.get(1).equals(String.valueOf(level))) {
+                        newMonster = getExoskeleton(exoskeleton);
+                        break;
+                    }
                 }
-                newMonster = getExoskeleton(exoskeletonList.get(id-1));
                 break;
             case SPIRIT:
                 ArrayList<ArrayList<String>> spiritList = AskInput.read(SPIRIT_MENU);
-                if (id == 0) {
-                    return null;
+                for (ArrayList<String> spirit : spiritList) {
+                    if (spirit.get(1).equals(String.valueOf(level))) {
+                        newMonster = getSpirit(spirit);
+                        break;
+                    }
                 }
-                newMonster = getSpirit(spiritList.get(id-1));
                 break;
             default:
                 return null;
