@@ -160,6 +160,8 @@ public abstract class Hero {
         level++;
         maxHp = hp = level * 1000;
         mana = (int)(mana * 1.1);
+        System.out.println("[Hero] " + name + " levels up!");
+        System.out.println(this);
     }
 
     // print methods
@@ -204,8 +206,10 @@ public abstract class Hero {
         int money = monsterLevel * 100;
         int exp = monsterLevel * 10;
         //TODO: int exp = monsterLevel * 1;
+        System.out.println("[Hero] " + name + " wins! You get money:$" + money + " and exp: ");
         gainMoney(money);
         gainExp(exp);
+
     }
 
 
@@ -290,6 +294,18 @@ public abstract class Hero {
 
     public List<Weapon> getWeapon() {
         return weapon;
+    }
+
+    public int getStrength() {
+        return strength;
+    }
+
+    public int getDexterity() {
+        return dexterity;
+    }
+
+    public int getAgility() {
+        return agility;
     }
 
     public void addStrength(double increment) {

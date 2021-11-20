@@ -107,8 +107,7 @@ public class HeroFactory {
             }
             System.out.println();
         }
-        System.out.println("Enter 0 to get back to the former menu.");
-        System.out.println("Select a hero by id.");
+        System.out.println("\nSelect a hero by id or enter 0 to get back to the former menu.");
     }
 
 

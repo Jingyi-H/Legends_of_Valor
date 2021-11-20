@@ -1,7 +1,7 @@
 import java.util.ArrayList;
 
 public class LegendOfValor {
-
+	// main program of LOV
 	private LOVBoard gameboard;
 	private Market market;
 	private Hero[] team;
@@ -13,7 +13,7 @@ public class LegendOfValor {
 
 
 	public LegendOfValor() {
-
+		// initialize Legends of Valor
 		System.out.println("Welcome to the World of Legend of Valor");
 		this.gameboard = new LOVBoard();
 		this.team = new Hero[3];
@@ -25,7 +25,7 @@ public class LegendOfValor {
 	}
 
 	private void runGame() {
-
+		// initialize heroes team and run the game
 		for(int i=0;i<3;i++) {
 			this.team[i] = AskInput.askHero(i + 1);
 		}
@@ -66,10 +66,15 @@ public class LegendOfValor {
 		for(int i = 0; i<3;i++) {
 			if (team[i].getHp() == 0) {continue;}
 			if (gameboard.checkEvent(team[i]) == 0) {
-				PurchaseHelper.purchase(team[i], market);
+				//Ask enter shop or not on the map
+				if (AskInput.inquireYN("You are at Nexus, would you like to purchase?")) {
+					PurchaseHelper.purchase(team[i], market);
+				}
 			}
 			else if (gameboard.checkEvent(team[i]) == 4) {
-				PurchaseHelper.purchase(team[i], market);
+				if (AskInput.inquireYN("You are at Nexus, would you like to purchase?")) {
+					PurchaseHelper.purchase(team[i], market);
+				}
 				BattleHelper.battle(team[i], gameboard.selectOpponent(team[i]), gameboard);
 			}
 			System.out.println(team[i].getName() + " please make your move");
@@ -110,16 +115,19 @@ public class LegendOfValor {
 					if(this.gameboard.teleport(this.team[i], coord)) {break;}
 				}
 				else if(this.gameboard.checkMovable(this.team[i],this.move)) {
-//					System.out.println(">>" + gameboard.getPos(team[i])[0] + gameboard.getPos(team[i])[1]);
 					break;}
 				else {System.out.println("Place cannot be reached, please make another move");
-//					System.out.println(">>" + gameboard.getPos(team[i])[0] + gameboard.getPos(team[i])[1]);
 				}
 			}
 
 			//
 			int incident = this.gameboard.checkEvent(this.team[i]);
-			if(incident == 0) {PurchaseHelper.purchase(this.team[i], market); this.gameboard.print(); }
+			if(incident == 0) {
+				if (AskInput.inquireYN("You are at Nexus, would you like to purchase?")) {
+					PurchaseHelper.purchase(team[i], market);
+				}
+				this.gameboard.print();
+			}
 			else if (incident == 1) {
 				this.gameboard.print();
 				BattleHelper.battle(this.team[i], this.gameboard.selectOpponent(this.team[i]), this.gameboard);

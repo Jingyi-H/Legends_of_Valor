@@ -120,6 +120,9 @@ public class BattleHelper {
 		System.out.print(hero.getHp());
 		System.out.print("), -- MANA(");
 		System.out.println(hero.getMana()+")");
+		System.out.print("Strength(" + hero.getStrength());
+		System.out.print(") Dexterity(" + hero.getDexterity());
+		System.out.println(") Agility(" + hero.getAgility());
 		
 		System.out.println("-----------------------------------------");
 		System.out.print("Monster: ");

@@ -30,6 +30,7 @@ public class AskInput {
     public static Hero askHero(int i) {
         System.out.println(">>>>>> " + "Please select hero " + i + " >>>>>>");
         Hero h = heroFactory.getHero();
+        System.out.println();
         return h;
     }
 
@@ -49,6 +50,7 @@ public class AskInput {
         }
         return yes;
     }
+
 
     public static ArrayList<ArrayList<String>> read(String filename) {
         String delimAlias = "/";
@@ -141,7 +143,7 @@ public class AskInput {
         String choice = "";
         while(true) {
             Scanner file = new Scanner(System.in);
-            choice = file.nextLine();
+            choice = file.nextLine().toLowerCase();
             while(!(choice.equals("w"))&&!(choice.equals("a"))&&!(choice.equals("s"))&&!(choice.equals("d"))&&!(choice.equals("i"))&&!(choice.equals("t"))&&!(choice.equals("q"))) {
                 System.out.println("(Error A07)You have to input 'w', or 'a', or 's', or 'd', or 'i', or 't', or 'q'");
                 choice = file.nextLine();
