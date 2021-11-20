@@ -19,6 +19,7 @@ public class LegendOfValor {
 		this.team = new Hero[3];
 		this.round = 0;
 		this.market = new Market();
+		this.monsterFactory = new MonsterFactory();
 
 		runGame();
 	}
@@ -41,14 +42,14 @@ public class LegendOfValor {
 	}
 
 
-	public void round() {
+	private void round() {
 
 		//check movable
 		if(this.round % 8 == 0) {
 			for(int i = 0; i<3;i++) {
 				// TODO: Monster needs to be the same level as hero
 				int monsterLevel = getHighest(this.team);
-				Monster current = monsterFactory.getMonster(getRandomNumber(1, 3), monsterLevel));
+				Monster current = monsterFactory.getMonster(getRandomNumber(1, 3), monsterLevel);
 				this.gameboard.addCharacter(current);
 			}
 		}
@@ -88,19 +89,23 @@ public class LegendOfValor {
 				}
 				if(this.move.equals("t")) {
 					// TODO: teleport
-					if(this.gameboard.teleport(this.team[i])) {break;}
+					int[] coord = AskInput.askCoordinates(0, 8);
+					if(this.gameboard.teleport(this.team[i], coord)) {break;}
 				}
 				else if(this.gameboard.checkMovable(this.team[i],this.move)) {break;}
 				else {System.out.println("Place cannot be reached, please make another move");}
 			}
 
 			//
+			this.gameboard.print();
 			int incident = this.gameboard.checkEvent(this.team[i]);
 			if(incident == 0) {PurchaseHelper.purchase(this.team[i], market);}
 			else if (incident == 1) {
 				BattleHelper.battle(this.team[i], this.gameboard.selectOpponent(this.team[i]), this.gameboard, this.market);
+				System.out.println("Hero meets monster.");
 			}
-			else {System.out.println("The hero team won!"); System.exit(0);}
+			else if (incident == 2) {System.out.println("The hero team won!"); System.exit(0);}
+
 
 		}
 
@@ -111,7 +116,7 @@ public class LegendOfValor {
 			if (incident == 1) {
 				BattleHelper.battle(this.gameboard.selectOpponent(i), i, this.gameboard, this.market);
 			}
-			else {
+			else if (incident == 2) {
 				System.out.println("The monster team won!");
 				System.exit(0);
 			}
@@ -123,7 +128,7 @@ public class LegendOfValor {
 		return (int) ((Math.random() * (max - min)) + min);
 	}
 
-	public int getHighest(Hero[] heroes) {
+	private int getHighest(Hero[] heroes) {
 		int max = 0;
 		for (Hero h : heroes) {
 			if (h.getLevel() > max) {
@@ -132,11 +137,5 @@ public class LegendOfValor {
 		}
 		return max;
 	}
-
-	public boolean checkEnd() {
-		return false;
-	}
-
-
 
 }

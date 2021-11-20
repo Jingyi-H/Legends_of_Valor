@@ -38,6 +38,10 @@ public class Bag {
         for (Weapon i : getWeaponInventory()) {
             info += i.getName() + "\n";
         }
+		info += "============ Armor ============\n";
+		for (Armor i : getArmorInventory()) {
+			info += i.getName() + "\n";
+		}
         info += "============ Spell ============\n";
         for (Spell i : getSpellInventory()) {
             info += i.getName() + "\n";

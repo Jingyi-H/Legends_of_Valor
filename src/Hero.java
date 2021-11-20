@@ -72,7 +72,6 @@ public abstract class Hero {
     public void heal(Potion potion) {
         //capped
         int healValue = potion.getAffect();
-        // TODO: mana/skills increase
         if (potion.getAttribute()[0]) {
             int hp = this.hp + healValue;
             if (hp > maxHp) {
@@ -90,6 +89,7 @@ public abstract class Hero {
             defense += healValue;
         if (potion.getAttribute()[5])
             agility += healValue;
+        System.out.println("Succeed: Use [Potion] " + potion);
     }
 
     public int castSpell(Spell spell) {
@@ -143,6 +143,12 @@ public abstract class Hero {
         // check hands before equip new weapons
         Weapon equip = bag.getWeaponInventory().remove(idx);
         emptyHands = emptyHands - equip.getHandsRequired();
+        weapon.add(equip);
+    }
+
+    public void unloadArmor() {
+        bag.getArmorInventory().add(armor);
+        armor = null;
     }
 
     public String toString() {
@@ -168,6 +174,12 @@ public abstract class Hero {
         System.out.println("strength: " + strength);
         System.out.println("dexterity: " + dexterity);
         System.out.println("agility: " + agility);
+        if (this.armor == null) {
+            System.out.println("defense: " + defense);
+        }
+        else {
+            System.out.println("defense: " + (defense + this.armor.getDamageReduction()));
+        }
     }
 
     public void printEquip() {
@@ -234,7 +246,7 @@ public abstract class Hero {
 
     private void setExp(int exp) {
         this.exp = exp;
-        if (exp > level * 10) {
+        if (exp > level * 10 && level < 10) {
             levelUp();
         }
     }
@@ -279,9 +291,8 @@ public abstract class Hero {
         return weapon;
     }
 
-    // TODO: add/remove attributes methods
     public void addStrength(double increment) {
-
+        this.strength = (int)(this.strength * (1 + increment));
     }
 
     public void addDexterity(double increment) {

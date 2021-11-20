@@ -16,11 +16,10 @@ public class AskInput {
             String r = scanner.next();
             try {
                 x = Integer.parseInt(r);
+                if (x > max || x < min) {
+                    System.out.println("Invalid input, please enter a valid integer!");
+                }
             } catch (NumberFormatException e) {
-                System.out.println("Invalid input, please enter a valid integer!");
-            }
-
-            if (x > max || x < min) {
                 System.out.println("Invalid input, please enter a valid integer!");
             }
 
@@ -83,12 +82,12 @@ public class AskInput {
                 Scanner file = new Scanner(System.in);
                 choice = file.nextInt();
                 while(choice<0 || choice>31) {
-                    System.out.println("(Error Purchase)You have to input a number between 0 - 30, enter again:");
+                    System.out.println("(Error Purchase)You have to input a number between 0 - 31, enter again:");
                     choice = file.nextInt();
                 }
                 break;
             }catch(InputMismatchException|NumberFormatException ex){
-                System.out.println("(Error Purchase)You have to input a number between 0 - 30, enter again:");
+                System.out.println("(Error Purchase)You have to input a number between 0 - 31, enter again:");
             }
         }
         return choice;
@@ -136,7 +135,7 @@ public class AskInput {
 
     //Ask move on the map
     public static String askMove() {
-        System.out.println("Select your team's move:");
+        System.out.println("Select your move:");
         System.out.println("(w -- up, s -- down, a -- left, d -- right, i -- inventory, t -- teleport, q -- exit Game)");
         String choice = "";
         while(true) {
@@ -149,6 +148,39 @@ public class AskInput {
             break;
         }
         return choice;
+
+    }
+
+    public static int[] askCoordinates(int lower, int upper) {
+        // TODO:
+        System.out.print("Enter the coordinates of the tile you want to teleport: ");
+        Scanner in = new Scanner(System.in);
+        int[] coord = new int[2];
+        int count = 0;
+        while (count < 2) {
+            while (!in.hasNextInt()) {
+                System.out.println("Please enter "+ 2 +" integers.");
+                in.next();
+            }
+            int input = in.nextInt();
+            coord[count] = input;
+            count++;
+            if (count == 2) {
+                for (int i = 0; i < 2; i++) {
+                    if (coord[i] >= upper) {
+                        System.out.println("Please enter positive integers within "+ upper +".");
+                        count = 0;
+                        break;
+                    }
+                    else if (coord[i] < lower) {
+                        System.out.println("Please enter positive integers no less than "+ lower +".");
+                        count = 0;
+                        break;
+                    }
+                }
+            }
+        }
+        return coord;
 
     }
 

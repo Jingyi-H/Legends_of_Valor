@@ -16,7 +16,11 @@ public class Weapon {
 		this.HandsRequired = Integer.parseInt(info.get(4));
 		
 	}
-	
+
+	public String toString() {
+		String output = this.name + ": " + "damage=" + this.Damage + " hands_required=" + this.HandsRequired;
+		return output;
+	}
 	public int getDamage() {return this.Damage;}
 	public String getName() {return this.name;}
 	public int getLevel() {return this.level;}
