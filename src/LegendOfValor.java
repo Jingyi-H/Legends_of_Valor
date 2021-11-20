@@ -24,11 +24,10 @@ public class LegendOfValor {
 		runGame();
 	}
 
-	public void runGame() {
+	private void runGame() {
 
 		for(int i=0;i<3;i++) {
-			this.team[i] = AskInput.askHero();
-			PurchaseHelper.purchase(this.team[i], this.market);
+			this.team[i] = AskInput.askHero(i + 1);
 		}
 		// initiate coordinates of hero groups
 		this.gameboard.addCharacter(this.team[0]);
@@ -47,15 +46,32 @@ public class LegendOfValor {
 		//check movable
 		if(this.round % 8 == 0) {
 			for(int i = 0; i<3;i++) {
-				// TODO: Monster needs to be the same level as hero
 				int monsterLevel = getHighest(this.team);
 				Monster current = monsterFactory.getMonster(getRandomNumber(1, 3), monsterLevel);
 				this.gameboard.addCharacter(current);
+//				System.out.println("==" + gameboard.getPos(current)[0] + gameboard.getPos(current)[1]);
+
+			}
+		}
+		if (this.round % 3 == 0) {
+			for (int i = 0; i < 3; i++) {
+				if (team[i].getHp() == 0) {
+					team[i].resetHp();
+					gameboard.heroRevive(team[i]);
+				}
 			}
 		}
 		this.gameboard.print();
 		System.out.println();// TODO: Zhu's Assignment map explanation
 		for(int i = 0; i<3;i++) {
+			if (team[i].getHp() == 0) {continue;}
+			if (gameboard.checkEvent(team[i]) == 0) {
+				PurchaseHelper.purchase(team[i], market);
+			}
+			else if (gameboard.checkEvent(team[i]) == 4) {
+				PurchaseHelper.purchase(team[i], market);
+				BattleHelper.battle(team[i], gameboard.selectOpponent(team[i]), gameboard);
+			}
 			System.out.println(team[i].getName() + " please make your move");
 			while(true) {
 				this.move = AskInput.askMove();
@@ -63,7 +79,7 @@ public class LegendOfValor {
 				if(this.move.equals("q")) {System.out.println("End Game");System.exit(0);}
 				//open character information
 				if(this.move.equals("i")){
-				    // TODO: show info
+				    // show info
 					System.out.println(this.team[i].toString());
 					System.out.println(this.team[i].getBag());
                     while(true) {
@@ -86,25 +102,31 @@ public class LegendOfValor {
                             }
                         }
                     }
+					continue;
 				}
 				if(this.move.equals("t")) {
-					// TODO: teleport
+					// teleport
 					int[] coord = AskInput.askCoordinates(0, 8);
 					if(this.gameboard.teleport(this.team[i], coord)) {break;}
 				}
-				else if(this.gameboard.checkMovable(this.team[i],this.move)) {break;}
-				else {System.out.println("Place cannot be reached, please make another move");}
+				else if(this.gameboard.checkMovable(this.team[i],this.move)) {
+//					System.out.println(">>" + gameboard.getPos(team[i])[0] + gameboard.getPos(team[i])[1]);
+					break;}
+				else {System.out.println("Place cannot be reached, please make another move");
+//					System.out.println(">>" + gameboard.getPos(team[i])[0] + gameboard.getPos(team[i])[1]);
+				}
 			}
 
 			//
-			this.gameboard.print();
 			int incident = this.gameboard.checkEvent(this.team[i]);
-			if(incident == 0) {PurchaseHelper.purchase(this.team[i], market);}
+			if(incident == 0) {PurchaseHelper.purchase(this.team[i], market); this.gameboard.print(); }
 			else if (incident == 1) {
-				BattleHelper.battle(this.team[i], this.gameboard.selectOpponent(this.team[i]), this.gameboard, this.market);
-				System.out.println("Hero meets monster.");
+				this.gameboard.print();
+				BattleHelper.battle(this.team[i], this.gameboard.selectOpponent(this.team[i]), this.gameboard);
+				this.gameboard.print();
 			}
-			else if (incident == 2) {System.out.println("The hero team won!"); System.exit(0);}
+			else if (incident == 2) {this.gameboard.print(); System.out.println("The hero team won!"); System.exit(0);}
+			else if (incident == 3) {this.gameboard.print();}
 			System.out.println("------------------------------------------");
 
 
@@ -113,12 +135,13 @@ public class LegendOfValor {
 		for(Monster i: this.gameboard.getMonsters()) {
 			// monster i moves
 			this.gameboard.move(i);
+//			System.out.println("==" + gameboard.getPos(i)[0] + gameboard.getPos(i)[1]);
 			int incident = this.gameboard.checkEvent(i);
 			this.gameboard.print();
 			System.out.println("the monster team makes a move");
 			System.out.println();
 			if (incident == 1) {
-				BattleHelper.battle(this.gameboard.selectOpponent(i), i, this.gameboard, this.market);
+				BattleHelper.battle(this.gameboard.selectOpponent(i), i, this.gameboard);
 			}
 			else if (incident == 2) {
 				System.out.println("The monster team won!");

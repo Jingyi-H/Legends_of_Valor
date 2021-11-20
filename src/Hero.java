@@ -23,7 +23,7 @@ public abstract class Hero {
 
     public Hero() {
         this.level = 1;
-        this.maxHp = this.hp = this.level * 100;
+        this.maxHp = this.hp = this.level * 1000;
         this.defense = 0;
         this.bag = new Bag();
         this.emptyHands = HANDS;
@@ -158,7 +158,7 @@ public abstract class Hero {
     protected void levelUp() {
         /* update heroes stats */
         level++;
-        maxHp = hp = level * 100;
+        maxHp = hp = level * 1000;
         mana = (int)(mana * 1.1);
     }
 
@@ -203,6 +203,7 @@ public abstract class Hero {
     public void win(int monsterLevel) {
         int money = monsterLevel * 100;
         int exp = monsterLevel * 10;
+        //TODO: int exp = monsterLevel * 1;
         gainMoney(money);
         gainExp(exp);
     }

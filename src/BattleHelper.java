@@ -4,22 +4,34 @@ import java.util.Scanner;
 
 public class BattleHelper {
 	
-	public static void battle(Hero hero, Monster monster, LOVBoard gameboard, Market market) {
+	public static void battle(Hero hero, Monster monster, LOVBoard gameboard) {
 		System.out.println("###########################################################################");
 		System.out.println("A Battle starts between "+ hero.getName() + " and "+ monster.getName());
 		
-//		addingAttribute(hero, gameboard);
-		
+		addingAttribute(hero, gameboard);
+		// TODO: enter "i" to print monster info
 		while(true) {
-			if(hero.getHp() == 0) {gameboard.heroRevive(hero); hero.resetHp();resetAttribute(hero, gameboard);PurchaseHelper.purchase(hero, market);break;}
+			if(hero.getHp() == 0) {System.out.println("You lose."); resetAttribute(hero, gameboard); gameboard.heroDie(hero); break;}
 			if(monster.getHp() == 0) {gameboard.monsterDie(monster);resetAttribute(hero, gameboard);hero.win(monster.getLevel());break;}
 			displaySituation(hero, monster);
 			
 			//Ask Hero Moves
 			System.out.println(hero.getName() + " please make your move: ");
 			int choice = AskInput.askBattleMove();
-			if(choice == 0) {heroAttack(hero, monster);}
-			else if(choice == 1) {heroCast(hero, monster);}
+			if(choice == 0) {
+				heroAttack(hero, monster);
+				if (monster.getHp() == 0) {
+					System.out.println("You defeated the monster.");
+					continue;
+				}
+			}
+			else if(choice == 1) {
+				heroCast(hero, monster);
+				if (monster.getHp() == 0) {
+					System.out.println("You defeated the monster.");
+					continue;
+				}
+			}
 			else if(choice == 2) {Action usePotion = new HealAction(hero);usePotion.execute();}
 			else {Action changeEquip = new ChangeEquipAction(hero);changeEquip.execute();}
 			
@@ -60,7 +72,7 @@ public class BattleHelper {
 			int size = hero.getBag().getSpellInventory().size();
 			for(int i = 0; i<size;i++) {
 				System.out.print(i+ " -- ");
-				System.out.println(hero.getBag().getSpellInventory().get(i).getName());				
+				System.out.println(hero.getBag().getSpellInventory().get(i));
 			}
 			System.out.println("Select your spell to cast: (corresponding integer)");
 			int choice = 0;

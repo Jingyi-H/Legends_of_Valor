@@ -29,7 +29,7 @@ public abstract class Monster {
     }
 
     public int attack() {
-        int hurtValue = (int)(this.damage * 0.05);
+        int hurtValue = this.damage;
         System.out.println("[Monster] " + getName() + "> attack: damage = " + hurtValue);
         return hurtValue;
     }

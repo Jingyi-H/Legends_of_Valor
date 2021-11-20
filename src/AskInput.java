@@ -27,7 +27,8 @@ public class AskInput {
         return x;
     }
 
-    public static Hero askHero() {
+    public static Hero askHero(int i) {
+        System.out.println(">>>>>> " + "Please select hero " + i + " >>>>>>");
         Hero h = heroFactory.getHero();
         return h;
     }
@@ -153,7 +154,8 @@ public class AskInput {
 
     public static int[] askCoordinates(int lower, int upper) {
         // TODO:
-        System.out.print("Enter the coordinates of the tile you want to teleport: ");
+        System.out.println("You can only teleport to either beside or behind the hero you want to assist.");
+        System.out.print("Enter the coordinates you want to teleport to: (e.g. 1 2)");
         Scanner in = new Scanner(System.in);
         int[] coord = new int[2];
         int count = 0;
