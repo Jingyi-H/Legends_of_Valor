@@ -49,7 +49,7 @@ public class LOVBoard {
         this.window = new LOVWindow();
         this.heros = new HashMap<>();
         this.monsters = new HashMap<>();
-        this.deadHeros = new HashMap<>();
+
     }
 
     // getters
