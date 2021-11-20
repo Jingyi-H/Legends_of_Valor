@@ -10,6 +10,8 @@ public class LOVBoard {
     // constructors
     public LOVBoard(int rows, int cols) {
         this.cells = new Cell[rows][cols];
+        heros = new HashMap<>();
+        monsters = new HashMap<>();
     }
 
     public LOVBoard(int dim) {

@@ -19,6 +19,7 @@ public class LegendOfValor {
 		this.team = new Hero[3];
 		this.round = 0;
 		this.market = new Market();
+		this.monsterFactory = new MonsterFactory();
 
 		runGame();
 	}
@@ -41,7 +42,7 @@ public class LegendOfValor {
 	}
 
 
-	public void round() {
+	private void round() {
 
 		//check movable
 		if(this.round % 8 == 0) {
@@ -96,10 +97,12 @@ public class LegendOfValor {
 			}
 
 			//
+			this.gameboard.print();
 			int incident = this.gameboard.checkEvent(this.team[i]);
 			if(incident == 0) {PurchaseHelper.purchase(this.team[i], market);}
 			else if (incident == 1) {
 				BattleHelper.battle(this.team[i], this.gameboard.selectOpponent(this.team[i]), this.gameboard, this.market);
+				System.out.println("Hero meets monster.");
 			}
 			else if (incident == 2) {System.out.println("The hero team won!"); System.exit(0);}
 
@@ -125,7 +128,7 @@ public class LegendOfValor {
 		return (int) ((Math.random() * (max - min)) + min);
 	}
 
-	public int getHighest(Hero[] heroes) {
+	private int getHighest(Hero[] heroes) {
 		int max = 0;
 		for (Hero h : heroes) {
 			if (h.getLevel() > max) {
@@ -134,11 +137,5 @@ public class LegendOfValor {
 		}
 		return max;
 	}
-
-	public boolean checkEnd() {
-		return false;
-	}
-
-
 
 }

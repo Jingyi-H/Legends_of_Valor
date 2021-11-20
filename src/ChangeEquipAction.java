@@ -73,7 +73,7 @@ public class ChangeEquipAction extends Action {
             int id = AskInput.askInt(1, weapons.size()) - 1;
 
             // set current weapon
-            if (hero.getBag().getWeaponInventory().get(id).getHandsRequired() < hero.emptyHands) {
+            if (hero.getBag().getWeaponInventory().get(id).getHandsRequired() <= hero.emptyHands) {
                 System.out.println("Succeed: Equipped with [Weapon]" + hero.getBag().getWeaponInventory().get(id));
                 hero.equipWeapon(id);
                 return true;
@@ -122,6 +122,7 @@ public class ChangeEquipAction extends Action {
             System.out.println((i + 1) + ": " + weapons.get(i));
         }
         int id = AskInput.askInt(1, weapons.size()) - 1;
+        System.out.println("Succeed: Unload [Weapon] " + weapons.get(id));
         hero.unloadWeapon(id);
 
         return true;
@@ -135,8 +136,9 @@ public class ChangeEquipAction extends Action {
             System.out.println("Failed: Hero is not equipped with armor.");
             return false;
         }
-        hero.setArmor(null);
 
+        System.out.println("Succeed: Unload [Armor]" + armor);
+        hero.unloadArmor();
         return true;
     }
 

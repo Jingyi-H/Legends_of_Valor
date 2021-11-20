@@ -97,7 +97,8 @@ public class HeroFactory {
 
     private void printMenu(ArrayList<ArrayList<String>> heroList) {
         String menu;
-        System.out.println("Name\tmana\tstrength\tagility\tdexterity\tstarting money\tstarting experience");
+        // TODO: print
+        System.out.println("Name/mana/strength/agility/dexterity/starting money/starting experience");
         for (int i = 0; i < heroList.size(); i++) {
             System.out.print((i + 1) + ": ");
             for (String s : heroList.get(i)) {

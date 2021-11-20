@@ -14,7 +14,12 @@ public class Armor {
 		this.DamageReduction = Integer.parseInt(info.get(3));
 		
 	}
-	
+
+	public String toString() {
+		String output = this.name + ": " + "damage_reduction=" + this.DamageReduction;
+		return output;
+	}
+
 	public String getName() {return this.name;}
 	public int getLevel() {return this.level;}
 	public int getDamageReduction() {return this.DamageReduction;}

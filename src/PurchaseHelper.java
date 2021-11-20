@@ -10,6 +10,7 @@ public class PurchaseHelper {
 	
 	public static void sell(Hero hero) {
 		while(true) {
+			System.out.println("You have $" + hero.getMoney());
 			System.out.println("What do you want to sell: 1 -- Armor, 2 -- Weapon, 3 -- Spell, 4 -- Potion, 5 -- quit");
 			int choice = AskInput.askSell();
 			if(choice == 5) {break;}
@@ -26,7 +27,7 @@ public class PurchaseHelper {
 			int size = hero.getBag().getArmorInventory().size();
 			for(int i = 1; i<size+1;i++) {
 				System.out.print(i+" -- ");
-				System.out.println(hero.getBag().getArmorInventory().get(i).getName() + "("+hero.getBag().getArmorInventory().get(i).getCost()/2 + ")");
+				System.out.println(hero.getBag().getArmorInventory().get(i-1).getName() + "("+hero.getBag().getArmorInventory().get(i-1).getCost()/2 + ")");
 			}
 			System.out.println("Select your Armor to sell: (corresponding integer or 0 to quit)");
 			int choice = 0;
@@ -43,6 +44,7 @@ public class PurchaseHelper {
 					System.out.println("Armor index doesn't exist, enter again:");
 				}				
 			}
+			if (choice == 0) {return;}
 			int money = hero.getBag().getArmorInventory().get(choice - 1).getCost()/2;
 			hero.gainMoney(money);
 			hero.getBag().getArmorInventory().remove(choice -1);
@@ -54,7 +56,7 @@ public class PurchaseHelper {
 			int size = hero.getBag().getWeaponInventory().size();
 			for(int i = 1; i<size+1;i++) {
 				System.out.print(i+" -- ");
-				System.out.println(hero.getBag().getWeaponInventory().get(i).getName() + "("+hero.getBag().getWeaponInventory().get(i).getCost()/2 + ")");
+				System.out.println(hero.getBag().getWeaponInventory().get(i-1).getName() + "("+hero.getBag().getWeaponInventory().get(i-1).getCost()/2 + ")");
 			}
 			System.out.println("Select your Weapon to sell: (corresponding integer or 0 to quit)");
 			int choice = 0;
@@ -71,6 +73,7 @@ public class PurchaseHelper {
 					System.out.println("Weapon index doesn't exist, enter again:");
 				}				
 			}
+			if (choice == 0) {return;}
 			int money = hero.getBag().getWeaponInventory().get(choice - 1).getCost()/2;
 			hero.gainMoney(money);
 			hero.getBag().getWeaponInventory().remove(choice -1);
@@ -82,7 +85,7 @@ public class PurchaseHelper {
 			int size = hero.getBag().getSpellInventory().size();
 			for(int i = 1; i<size+1;i++) {
 				System.out.print(i+" -- ");
-				System.out.println(hero.getBag().getSpellInventory().get(i).getName() + "("+hero.getBag().getSpellInventory().get(i).getCost()/2 + ")");
+				System.out.println(hero.getBag().getSpellInventory().get(i-1).getName() + "("+hero.getBag().getSpellInventory().get(i-1).getCost()/2 + ")");
 			}
 			System.out.println("Select your Spell to sell: (corresponding integer or 0 to quit)");
 			int choice = 0;
@@ -99,6 +102,7 @@ public class PurchaseHelper {
 					System.out.println("Spell index doesn't exist, enter again:");
 				}				
 			}
+			if (choice == 0) {return;}
 			int money = hero.getBag().getSpellInventory().get(choice - 1).getCost()/2;
 			hero.gainMoney(money);
 			hero.getBag().getSpellInventory().remove(choice -1);
@@ -111,7 +115,7 @@ public class PurchaseHelper {
 			int size = hero.getBag().getPotionInventory().size();
 			for(int i = 1; i<size+1;i++) {
 				System.out.print(i+" -- ");
-				System.out.println(hero.getBag().getPotionInventory().get(i).getName() + "("+hero.getBag().getPotionInventory().get(i).getCost()/2 + ")");
+				System.out.println(hero.getBag().getPotionInventory().get(i-1).getName() + "("+hero.getBag().getPotionInventory().get(i-1).getCost()/2 + ")");
 			}
 			System.out.println("Select your Potion to sell: (corresponding integer or 0 to quit)");
 			int choice = 0;
@@ -128,6 +132,7 @@ public class PurchaseHelper {
 					System.out.println("Potion index doesn't exist, enter again:");
 				}				
 			}
+			if (choice == 0) {return;}
 			int money = hero.getBag().getPotionInventory().get(choice - 1).getCost()/2;
 			hero.gainMoney(money);
 			hero.getBag().getPotionInventory().remove(choice -1);
@@ -172,7 +177,15 @@ public class PurchaseHelper {
 		System.out.println(", please make your purchase or quit:"+ "("+hero.getMoney()+" remain money"+")");
 		while(true) {
 			int choice = AskInput.askpurchase();
-			if(choice == 30) {sell(hero);}
+			if(choice == 30) {
+				sell(hero);
+				System.out.println("####################################################");
+				market.showitems();
+				System.out.println("####################################################");
+				System.out.print(hero.getName());
+				System.out.println(", please make your purchase or quit:"+ "("+hero.getMoney()+" remain money"+")");
+				continue;
+			}
 			if(choice == 31) {break;}
 			int choiceindex = purchaseindex(choice);
 			ArrayList<ArrayList<String>> division = purchaseDivision(choice,market);
@@ -194,6 +207,11 @@ public class PurchaseHelper {
 				}else {
 					hero.getBag().addPotion(new Potion(itembought));
 				}
+				System.out.println("####################################################");
+				market.showitems();
+				System.out.println("####################################################");
+				System.out.print(hero.getName());
+				System.out.println(", please make your purchase or quit:"+ "("+hero.getMoney()+" remain money"+")");
 				System.out.println("You have "+hero.getMoney() + "$ left");
 			}
 			else {

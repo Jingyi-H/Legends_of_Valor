@@ -16,11 +16,10 @@ public class AskInput {
             String r = scanner.next();
             try {
                 x = Integer.parseInt(r);
+                if (x > max || x < min) {
+                    System.out.println("Invalid input, please enter a valid integer!");
+                }
             } catch (NumberFormatException e) {
-                System.out.println("Invalid input, please enter a valid integer!");
-            }
-
-            if (x > max || x < min) {
                 System.out.println("Invalid input, please enter a valid integer!");
             }
 
@@ -83,12 +82,12 @@ public class AskInput {
                 Scanner file = new Scanner(System.in);
                 choice = file.nextInt();
                 while(choice<0 || choice>31) {
-                    System.out.println("(Error Purchase)You have to input a number between 0 - 30, enter again:");
+                    System.out.println("(Error Purchase)You have to input a number between 0 - 31, enter again:");
                     choice = file.nextInt();
                 }
                 break;
             }catch(InputMismatchException|NumberFormatException ex){
-                System.out.println("(Error Purchase)You have to input a number between 0 - 30, enter again:");
+                System.out.println("(Error Purchase)You have to input a number between 0 - 31, enter again:");
             }
         }
         return choice;

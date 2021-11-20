@@ -19,7 +19,11 @@ public class Spell {
 		else if(type == 3) {this.type = "Ice";}
 		else {this.type = "Lighting";}
 	}
-	
+
+	public String toString() {
+		String output = this.name + ": type=" + this.type + " mana_cost=" + this.ManaCost;
+		return output;
+	}
 	public int getDamage() {return this.Damage;}
 	public String getName() {return this.name;}
 	public int getLevel() {return this.level;}
