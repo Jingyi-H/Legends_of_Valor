@@ -27,8 +27,10 @@ public class AskInput {
         return x;
     }
 
-    public static Hero askHero() {
+    public static Hero askHero(int i) {
+        System.out.println(">>>>>> " + "Please select hero " + i + " >>>>>>");
         Hero h = heroFactory.getHero();
+        System.out.println();
         return h;
     }
 
@@ -48,6 +50,7 @@ public class AskInput {
         }
         return yes;
     }
+
 
     public static ArrayList<ArrayList<String>> read(String filename) {
         String delimAlias = "/";
@@ -140,7 +143,7 @@ public class AskInput {
         String choice = "";
         while(true) {
             Scanner file = new Scanner(System.in);
-            choice = file.nextLine();
+            choice = file.nextLine().toLowerCase();
             while(!(choice.equals("w"))&&!(choice.equals("a"))&&!(choice.equals("s"))&&!(choice.equals("d"))&&!(choice.equals("i"))&&!(choice.equals("t"))&&!(choice.equals("q"))) {
                 System.out.println("(Error A07)You have to input 'w', or 'a', or 's', or 'd', or 'i', or 't', or 'q'");
                 choice = file.nextLine();
@@ -153,7 +156,8 @@ public class AskInput {
 
     public static int[] askCoordinates(int lower, int upper) {
         // TODO:
-        System.out.print("Enter the coordinates of the tile you want to teleport: ");
+        System.out.println("You can only teleport to either beside or behind the hero you want to assist.");
+        System.out.print("Enter the coordinates you want to teleport to: (e.g. 1 2)");
         Scanner in = new Scanner(System.in);
         int[] coord = new int[2];
         int count = 0;

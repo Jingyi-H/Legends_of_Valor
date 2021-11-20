@@ -13,7 +13,7 @@ public abstract class Monster {
     public Monster(String name, int level, int damage, int defense, int dodgeChance) {
         this.name = name;
         this.level = level;
-//        this.hp = this.level * 100;
+        this.hp = this.level * 500;
         this.damage = damage;
         this.defense = defense;
         this.dodgeChance = dodgeChance;
@@ -29,7 +29,7 @@ public abstract class Monster {
     }
 
     public int attack() {
-        int hurtValue = (int)(this.damage * 0.05);
+        int hurtValue = this.damage;
         System.out.println("[Monster] " + getName() + "> attack: damage = " + hurtValue);
         return hurtValue;
     }

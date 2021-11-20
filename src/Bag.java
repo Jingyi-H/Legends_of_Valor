@@ -35,18 +35,30 @@ public class Bag {
     public String toString() {
 	    String info = "";
         info += "============ Weapon ============\n";
+        if (getWeaponInventory().size() == 0) {
+        	info += "None\n";
+		}
         for (Weapon i : getWeaponInventory()) {
             info += i.getName() + "\n";
         }
 		info += "============ Armor ============\n";
-		for (Armor i : getArmorInventory()) {
+		if (getArmorInventory().size() == 0) {
+			info += "None\n";
+		}
+        for (Armor i : getArmorInventory()) {
 			info += i.getName() + "\n";
 		}
         info += "============ Spell ============\n";
+		if (getSpellInventory().size() == 0) {
+			info += "None\n";
+		}
         for (Spell i : getSpellInventory()) {
             info += i.getName() + "\n";
         }
         info += "============ Potion ============\n";
+		if (getPotionInventory().size() == 0) {
+			info += "None\n";
+		}
         for (Potion i : getPotionInventory()) {
             info += i.getName() + "\n";
         }

@@ -6,6 +6,7 @@ public class LOVBoard {
     private HashMap<Hero, int[]> heros;
     private HashMap<Monster, int[]> monsters;
     private LOVWindow window;
+    private HashMap<Hero, int[]> deadHeros;
 
     // constructors
     public LOVBoard(int rows, int cols) {
@@ -48,6 +49,7 @@ public class LOVBoard {
         this.window = new LOVWindow();
         this.heros = new HashMap<>();
         this.monsters = new HashMap<>();
+
     }
 
     // getters
@@ -87,17 +89,20 @@ public class LOVBoard {
                 window.drawCell(i+1, j+1, this.cells[i][j].getMarker());
             }
         }
+        int cnt = 1;
         for (Hero hero : this.heros.keySet()) {
             int[] pos = this.heros.get(hero);
             ArrayList<String> marker = new ArrayList<>();
-            marker.add(" xx ");
+            String icon = " h" + Integer.toString(cnt) + " ";
+            marker.add(icon);
             marker.add("    ");
             window.drawCell(pos[0]+1, pos[1]+1, marker);
+            cnt++;
         }
         for (Monster monster : this.monsters.keySet()) {
             int[] pos = this.monsters.get(monster);
             ArrayList<String> marker = new ArrayList<>();
-            marker.add(" oo ");
+            marker.add(" mm ");
             marker.add("    ");
             window.drawCell(pos[0]+1, pos[1]+1, marker);
         }
@@ -139,7 +144,12 @@ public class LOVBoard {
 
     public int checkEvent(Hero hero) {
         int[] pos = this.heros.get(hero);
-        if (pos[0] == 7) return 0;                          // at nexus, trigger purchase event
+        if (pos[0] == 7) {
+            for (Monster monster : this.monsters.keySet()) {
+                if (checkNeighbor(hero, monster)) return 4; // at nexus, monster in front
+            }
+            return 0;                                       // at nexus, no monster in front, trigger purchase event
+        }
         for (Monster monster : this.monsters.keySet()) {
             if (checkNeighbor(hero, monster)) return 1;     // hero monster neighboring, trigger battle event
         }
@@ -189,11 +199,8 @@ public class LOVBoard {
         int[] posm = this.monsters.get(monster);
         int rowm = posm[0];
         int colm = posm[1];
-        boolean ver = (rowh - rowm == 1) || (rowh - rowm == -1);
-        boolean hor = (colh - colm == 1) || (colh - colm == -1);
-        if (ver && hor) return false;
-        if (ver) return true;
-        if (hor) return true;
+        if (Math.abs(rowh - rowm) == 1 && colh == colm) return true;
+        if (Math.abs(colh - colm) == 1 && rowh == rowm) return true;
         return false;
     }
 
@@ -206,7 +213,8 @@ public class LOVBoard {
     }
 
     public void heroRevive(Hero hero) {
-        int[] pos = this.heros.get(hero);
+        int[] pos = this.deadHeros.get(hero);
+        this.heros.put(hero, pos);
         int row = pos[0];
         int col = pos[1];
         int newrow = 7;
@@ -214,6 +222,12 @@ public class LOVBoard {
         int newcol = lane * 3;
         int[] newpos = {newrow, newcol};
         this.heros.replace(hero, newpos);
+    }
+
+    public void heroDie(Hero hero) {
+        int[] pos = this.heros.get(hero);
+        this.deadHeros.put(hero, pos);
+        this.heros.remove(hero);
     }
 
     public void monsterDie(Monster monster) {
@@ -257,7 +271,10 @@ public class LOVBoard {
             if (l == targetLane) targetLaneHeros.add(h);
         }
         if (targetLaneHeros.size() == 0) {              // when target lane has no hero
-            // do nothing
+            if (!this.cells[targetPos[0]][targetPos[1]].visited) {
+                System.out.println("Sorry, you can only teleport to a cell that's visited by any hero.");
+                return false;
+            }
         } else if (targetLaneHeros.size() == 1) {       // when target lane has one hero
             Hero hero1 = targetLaneHeros.get(0);
             int[] pos1 = this.heros.get(hero1);

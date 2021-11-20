@@ -1,7 +1,7 @@
 import java.util.ArrayList;
 
 public class Spell {
-	
+	//
 	private int Damage;
 	private String name;
 	private int level;
