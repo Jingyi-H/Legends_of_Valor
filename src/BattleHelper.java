@@ -44,19 +44,17 @@ public class BattleHelper {
 	
 	public static void monsterAttack(Hero hero, Monster monster) {
 		// monster round
-		System.out.println("^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^");
-		
+		int damage = monster.attack();
 		boolean dodge = hero.dodge();
-		if(!dodge) {int damage = monster.attack(); hero.defend(damage);}
+		if(!dodge) { hero.defend(damage);}
 		
-		System.out.println("^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^");
 	}
 	
 	public static void heroAttack(Hero hero, Monster monster) {
 		// hero round and hero start a regular attack
+		int hero_damage = hero.attack();
 		boolean dodge = monster.dodge();
-		if(dodge == true) {System.out.println(monster.getName() + " dodged your attack!");}
-		else {int hero_damage = hero.attack();monster.defend(hero_damage);}
+		if(!dodge) {monster.defend(hero_damage);}
 		
 	}
 	
