@@ -1,6 +1,7 @@
 import java.util.*;
 
-public abstract class Monster {
+// Game characters played by computer
+public abstract class Monster implements CharacterBehavioral {
     String name;
     int level;
     int hp;
@@ -30,7 +31,7 @@ public abstract class Monster {
 
     public int attack() {
         int hurtValue = this.damage;
-        System.out.println("[Monster] " + getName() + "> attack: damage = " + hurtValue);
+        System.out.println("[Monster] " + getName() + "> attack: damage=" + hurtValue);
         return hurtValue;
     }
 
@@ -42,7 +43,7 @@ public abstract class Monster {
         return false;
     }
 
-    public void reduceHp(int damage) {
+    public void defend(int damage) {
         int newhp = this.hp - damage + this.defense;
         if (newhp < 0) newhp = 0;
         if (newhp > this.hp) newhp = this.hp;

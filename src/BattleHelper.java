@@ -12,7 +12,7 @@ public class BattleHelper {
 		addingAttribute(hero, gameboard);
 		// TODO: enter "i" to print monster info
 		while(true) {
-			if(hero.getHp() == 0) {System.out.println("You lose."); resetAttribute(hero, gameboard); gameboard.heroDie(hero); break;}
+			if(hero.getHp() == 0) {hero.lose(); resetAttribute(hero, gameboard); gameboard.heroDie(hero); break;}
 			if(monster.getHp() == 0) {gameboard.monsterDie(monster);resetAttribute(hero, gameboard);hero.win(monster.getLevel());break;}
 			displaySituation(hero, monster);
 			
@@ -56,14 +56,14 @@ public class BattleHelper {
 		// hero round and hero start a regular attack
 		boolean dodge = monster.dodge();
 		if(dodge == true) {System.out.println(monster.getName() + " dodged your attack!");}
-		else {int hero_damage = hero.attack();monster.reduceHp(hero_damage);}
+		else {int hero_damage = hero.attack();monster.defend(hero_damage);}
 		
 	}
 	
 	public static void heroCast(Hero hero, Monster monster) {
 		// hero round and hero cast a spell
 		boolean hasSpell = hasSpell(hero);
-		if(hasSpell == false) {System.out.println("What are you doing? You don't have any Spell!");}
+		if(hasSpell == false) {System.out.println("Failed: What are you doing? You don't have any Spell!");}
 		else {
 			int size = hero.getBag().getSpellInventory().size();
 			for(int i = 0; i<size;i++) {
@@ -91,7 +91,7 @@ public class BattleHelper {
 			if(selected.getType().equals("Fire")) {monster.reduceDefense(0.2);}
 			else if(selected.getType().equals("Ice")){monster.reduceDamage(0.2);}
 			else {monster.reduceDodge(0.2);}
-			monster.reduceHp(damage);
+			monster.defend(damage);
 		}
 	}
 	

@@ -184,6 +184,9 @@ public class PurchaseHelper {
 			int choice = AskInput.askpurchase();
 			if(choice == 30) {
 				sell(hero);
+				if (AskInput.inquireYN("Leave market?")) {
+					break;
+				}
 				System.out.println("####################################################");
 				market.showitems();
 				System.out.println("####################################################");
@@ -212,7 +215,10 @@ public class PurchaseHelper {
 				}else {
 					hero.getBag().addPotion(new Potion(itembought));
 				}
-				System.out.println(">>>Transaction succeeded");
+				System.out.println(">>> Transaction succeeded");
+				if (AskInput.inquireYN("Leave market?")) {
+					break;
+				}
 				System.out.println("####################################################");
 				market.showitems();
 				System.out.println("####################################################");
@@ -221,7 +227,7 @@ public class PurchaseHelper {
 				System.out.println("You have $"+hero.getMoney() + " left");
 			}
 			else {
-				System.out.println(">>>Transaction failed: You don't have enough money or you are not level enough to purchase this item, please make another selecion");
+				System.out.println(">>> Transaction failed\n    You don't have enough money or you are not level enough to purchase this item, please make another selecion");
 			}
 			
 			

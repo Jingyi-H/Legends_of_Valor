@@ -68,15 +68,18 @@ public class LegendOfValor extends RPGGame {
 			if (team[i].getHp() == 0) {continue;}
 			if (gameboard.checkEvent(team[i]) == 0) {
 				//Ask enter shop or not on the map
-				if (AskInput.inquireYN("You are at Nexus, would you like to purchase?")) {
+				if (AskInput.inquireYN(team[i].getName() + ", you are at Nexus, would you like to purchase?")) {
 					PurchaseHelper.purchase(team[i], market);
+					System.out.println();
 				}
 			}
 			else if (gameboard.checkEvent(team[i]) == 4) {
-				if (AskInput.inquireYN("You are at Nexus, would you like to purchase?")) {
+				if (AskInput.inquireYN(team[i].getName() + ", you are at Nexus, would you like to purchase?")) {
 					PurchaseHelper.purchase(team[i], market);
+					System.out.println();
 				}
 				BattleHelper.battle(team[i], gameboard.selectOpponent(team[i]), gameboard);
+				System.out.println();
 			}
 			System.out.println(team[i].getName() + " please make your move");
 			while(true) {

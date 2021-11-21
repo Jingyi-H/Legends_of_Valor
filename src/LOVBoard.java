@@ -3,17 +3,18 @@ import java.util.concurrent.ThreadLocalRandom;
 
 public class LOVBoard extends HMBoard{
     private Cell[][] cells;
-    private HashMap<Hero, int[]> heros;
-    private HashMap<Monster, int[]> monsters;
+    private Map<Hero, int[]> heros;
+    private Map<Monster, int[]> monsters;
     private LOVWindow window;
-    private HashMap<Hero, int[]> deadHeros;
+    private Map<Hero, int[]> deadHeros;
 
     public LOVBoard(int rows, int cols) {
         // initialization
         super();
         this.cells = new Cell[rows][cols];
-        heros = new HashMap<>();
-        monsters = new HashMap<>();
+        heros = new LinkedHashMap<>();
+        monsters = new LinkedHashMap<>();
+        deadHeros = new LinkedHashMap<>();
     }
 
     public LOVBoard(int dim) {
@@ -48,8 +49,8 @@ public class LOVBoard extends HMBoard{
             }
         }
         this.window = new LOVWindow();
-        this.heros = new HashMap<>();
-        this.monsters = new HashMap<>();
+        this.heros = new LinkedHashMap<>();
+        this.monsters = new LinkedHashMap<>();
 
     }
 
@@ -94,7 +95,7 @@ public class LOVBoard extends HMBoard{
         for (Hero hero : this.heros.keySet()) {
             int[] pos = this.heros.get(hero);
             ArrayList<String> marker = new ArrayList<>();
-            String icon = " h" + Integer.toString(cnt) + " ";
+            String icon = " h" + cnt + " ";
             marker.add(icon);
             marker.add("    ");
             window.drawCell(pos[0]+1, pos[1]+1, marker);

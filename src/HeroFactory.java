@@ -1,9 +1,9 @@
 import java.util.ArrayList;
 import java.util.List;
 
-// For creations of heroes, enable players to select heroes
+// Factory pattern, for creating heroes, enable players to select heroes
 public class HeroFactory {
-    // for creating heros
+
     static final int WARRIOR = 1;
     static final int SORCERER = 2;
     static final int PALADIN = 3;

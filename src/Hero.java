@@ -2,7 +2,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 // Game characters played by users
-public abstract class Hero {
+public abstract class Hero implements CharacterBehavioral {
     String name;
     int level;
     int hp;

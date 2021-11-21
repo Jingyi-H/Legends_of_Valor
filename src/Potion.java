@@ -22,7 +22,6 @@ public class Potion {
 		String current = info.get(4);
 		String[] output = current.split("/");
 		for(String i: output) {
-			System.out.println(i);
 			if(i.equals("Health")) {this.attribute[0]=true;}
 			else if(i.equals("Mana")) {this.attribute[1]=true;}
 			else if(i.equals("Strength")) {this.attribute[2]=true;}
