@@ -4,10 +4,12 @@ import java.nio.file.Files;
 import java.nio.file.Paths;
 import java.util.*;
 
+// Utils class for parsing
 public class AskInput {
     private static final int MIN = -99999;
     private static HeroFactory heroFactory = new HeroFactory();
 
+    // ask player to input an integer with required boundary
     public static int askInt(int min, int max) {
         Scanner scanner = new Scanner(System.in);
         System.out.printf("Please enter the number (%d ~ %d): ", min, max);
@@ -27,6 +29,7 @@ public class AskInput {
         return x;
     }
 
+    // ask player to select heroes
     public static Hero askHero(int i) {
         System.out.println(">>>>>> " + "Please select hero " + i + " >>>>>>");
         Hero h = heroFactory.getHero();
@@ -34,6 +37,7 @@ public class AskInput {
         return h;
     }
 
+    // inquire yes/no of prompt questions
     public static boolean inquireYN(String promptMsg) {
         System.out.print(promptMsg + " (y/n)  ");
         Scanner scanner = new Scanner(System.in);
@@ -51,11 +55,11 @@ public class AskInput {
         return yes;
     }
 
-
+    // File parsing method
     public static ArrayList<ArrayList<String>> read(String filename) {
         String delimAlias = "/";
         String delimData = "\\s+";
-        String file = System.getProperty("user.dir") + "/src/ConfigFiles/" + filename;
+        String file = System.getProperty("user.dir") + "/ConfigFiles/" + filename;
         List<String> lines = Collections.emptyList();
         ArrayList<ArrayList<String>> result = new ArrayList<ArrayList<String>>();
         try {
@@ -154,6 +158,7 @@ public class AskInput {
 
     }
 
+    // Ask coordinates that the player wants selected hero to teleport to
     public static int[] askCoordinates(int lower, int upper) {
         // TODO:
         System.out.println("You can only teleport to either beside or behind the hero you want to assist.");
@@ -185,7 +190,6 @@ public class AskInput {
             }
         }
         return coord;
-
     }
 
 

@@ -50,7 +50,6 @@ public class LegendOfValor extends RPGGame {
 				int monsterLevel = getHighest(this.team);
 				Monster current = monsterFactory.getMonster(getRandomNumber(1, 3), monsterLevel);
 				this.gameboard.addCharacter(current);
-//				System.out.println("==" + gameboard.getPos(current)[0] + gameboard.getPos(current)[1]);
 
 			}
 		}
@@ -147,7 +146,6 @@ public class LegendOfValor extends RPGGame {
 		for(Monster i: this.gameboard.getMonsters()) {
 			// monster i moves
 			this.gameboard.move(i);
-//			System.out.println("==" + gameboard.getPos(i)[0] + gameboard.getPos(i)[1]);
 			int incident = this.gameboard.checkEvent(i);
 			this.gameboard.print();
 			System.out.println("the monster team makes a move");

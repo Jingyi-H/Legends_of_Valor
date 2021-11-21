@@ -1,14 +1,13 @@
 import java.util.ArrayList;
 
 // subclass of item
-public class Armor {
+public class Armor extends Item {
 	// armed by heroes and can reduce damage from attack
 	private int DamageReduction;
 	private String name;
-	private int level;
-	private int cost;
-	
+
 	public Armor(ArrayList<String> info) {
+
 		this.name = info.get(0);
 		this.cost = Integer.parseInt(info.get(1));
 		this.level = Integer.parseInt(info.get(2));
@@ -22,9 +21,6 @@ public class Armor {
 	}
 
 	// 'get' methods
-	public String getName() {return this.name;}
-	public int getLevel() {return this.level;}
 	public int getDamageReduction() {return this.DamageReduction;}
-	public int getCost() {return this.cost;}
 
 }

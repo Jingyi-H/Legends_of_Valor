@@ -1,3 +1,4 @@
+// subclass of hero
 public class Paladin extends Hero {
 
     public Paladin() { }
@@ -7,6 +8,7 @@ public class Paladin extends Hero {
     }
 
     public void levelUp() {
+        //
         super.levelUp();
         strength = (int)(strength * 1.10);
         agility = (int)(agility * 1.05);
