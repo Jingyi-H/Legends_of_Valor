@@ -1,7 +1,8 @@
 import java.util.ArrayList;
 
+// subclass of item
 public class Weapon {
-	
+	// armed by heroes and can increase damage by heroes when taking regular attack
 	private int Damage;
 	private String name;
 	private int level;
@@ -21,6 +22,8 @@ public class Weapon {
 		String output = this.name + ": " + "damage=" + this.Damage + " hands_required=" + this.HandsRequired;
 		return output;
 	}
+
+	// getter and setter
 	public int getDamage() {return this.Damage;}
 	public String getName() {return this.name;}
 	public int getLevel() {return this.level;}

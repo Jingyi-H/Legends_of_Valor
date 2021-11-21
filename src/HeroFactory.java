@@ -13,11 +13,10 @@ public class HeroFactory {
     static final String PALADIN_MENU = "Paladins.txt";
 
 
-    public HeroFactory() {
-
-    }
+    public HeroFactory() {}
 
     public Hero getHero() {
+        // get hero according to player's choice
         int type = selectType();
         Hero newHero = selectHero(type);
         while (newHero == null) {
@@ -29,6 +28,7 @@ public class HeroFactory {
     }
 
     private int selectType() {
+        // return heroes type id according to player's choice
         System.out.println("Select a hero type:");
         System.out.println("1: Warrior");
         System.out.println("2: Sorcerer");
@@ -39,6 +39,7 @@ public class HeroFactory {
     }
 
     private Hero selectHero(int type) {
+        // get player's choice and instantiate the selected hero
         int id;
         Hero newHero;
         switch (type) {
@@ -76,6 +77,7 @@ public class HeroFactory {
     }
 
     private Warrior getWarrior(ArrayList<String> attrs) {
+        // return a warrior according to player's input
         Warrior warrior = new Warrior();
         warrior.setAttributes(attrs);
 
@@ -83,6 +85,7 @@ public class HeroFactory {
     }
 
     private Sorcerer getSorcerer(ArrayList<String> attrs) {
+        // return a sorcerer according to player's input
         Sorcerer sorcerer = new Sorcerer();
         sorcerer.setAttributes(attrs);
 
@@ -90,6 +93,7 @@ public class HeroFactory {
     }
 
     private Paladin getPaladin(ArrayList<String> attrs) {
+        // return a paladin according to player's input
         Paladin paladin = new Paladin();
         paladin.setAttributes(attrs);
 
@@ -97,8 +101,8 @@ public class HeroFactory {
     }
 
     private void printMenu(ArrayList<ArrayList<String>> heroList) {
+        // print the menu of heroes character of some type (warrior/sorcerer/paladin)
         String menu;
-        // TODO: print
         System.out.println("Name/mana/strength/agility/dexterity/starting money/starting experience");
         for (int i = 0; i < heroList.size(); i++) {
             System.out.print((i + 1) + ": ");

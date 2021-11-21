@@ -1,11 +1,11 @@
+// action of heroes
+// super class
 public abstract class Action {
     Hero hero;
-    // action of heroes
-    // super class of ChangeEquipAction, HealAction
 
     public Action() {}
 
-    abstract boolean execute();
+    abstract boolean execute();     // execute current action
 
     void setHero(Hero hero) {
         this.hero = hero;

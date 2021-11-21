@@ -3,8 +3,9 @@ import java.util.InputMismatchException;
 import java.util.Scanner;
 
 public class BattleHelper {
-	
+	// when heroes team meets monster(s)
 	public static void battle(Hero hero, Monster monster, LOVBoard gameboard) {
+		// battle starts
 		System.out.println("###########################################################################");
 		System.out.println("A Battle starts between "+ hero.getName() + " and "+ monster.getName());
 		
@@ -21,14 +22,14 @@ public class BattleHelper {
 			if(choice == 0) {
 				heroAttack(hero, monster);
 				if (monster.getHp() == 0) {
-					System.out.println("You defeated the monster.");
+					System.out.println("You defeat the monster.");
 					continue;
 				}
 			}
 			else if(choice == 1) {
 				heroCast(hero, monster);
 				if (monster.getHp() == 0) {
-					System.out.println("You defeated the monster.");
+					System.out.println("You defeat the monster.");
 					continue;
 				}
 			}
@@ -42,21 +43,17 @@ public class BattleHelper {
 	}
 	
 	public static void monsterAttack(Hero hero, Monster monster) {
+		// monster round
 		System.out.println("^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^");
 		
 		boolean dodge = hero.dodge();
-		if(dodge == true) {System.out.println(monster.getName() + " attacked, but you dodged its attack!");}
-		else {int damage = monster.attack();hero.defend(damage);}
-		
-
-		
-		
+		if(!dodge) {int damage = monster.attack(); hero.defend(damage);}
 		
 		System.out.println("^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^");
 	}
 	
 	public static void heroAttack(Hero hero, Monster monster) {
-		
+		// hero round and hero start a regular attack
 		boolean dodge = monster.dodge();
 		if(dodge == true) {System.out.println(monster.getName() + " dodged your attack!");}
 		else {int hero_damage = hero.attack();monster.reduceHp(hero_damage);}
@@ -64,11 +61,10 @@ public class BattleHelper {
 	}
 	
 	public static void heroCast(Hero hero, Monster monster) {
-		
+		// hero round and hero cast a spell
 		boolean hasSpell = hasSpell(hero);
 		if(hasSpell == false) {System.out.println("What are you doing? You don't have any Spell!");}
 		else {
-
 			int size = hero.getBag().getSpellInventory().size();
 			for(int i = 0; i<size;i++) {
 				System.out.print(i+ " -- ");
@@ -90,8 +86,7 @@ public class BattleHelper {
 				}				
 			}
 			Spell selected = hero.getBag().getSpellInventory().get(choice);
-			
-			
+			// cast the selected spell
 			int damage = hero.castSpell(selected);
 			if(selected.getType().equals("Fire")) {monster.reduceDefense(0.2);}
 			else if(selected.getType().equals("Ice")){monster.reduceDamage(0.2);}
@@ -101,17 +96,16 @@ public class BattleHelper {
 	}
 	
 	public static boolean hasSpell(Hero hero) {
-		
+		// check if current hero has a spell
 		int count = hero.getBag().getSpellInventory().size();
 		if(count == 0) {return false;}
 		else {return true;}
 		
 	}
 	
-	
-	
-	//display battle situation
-	public static void displaySituation(Hero hero, Monster monster) {		
+	public static void displaySituation(Hero hero, Monster monster) {
+		//display battle situation
+
 		System.out.println("-----------------------------------------");
 		System.out.print("Hero: ");
 		
@@ -121,8 +115,8 @@ public class BattleHelper {
 		System.out.print("), -- MANA(");
 		System.out.println(hero.getMana()+")");
 		System.out.print("Strength(" + hero.getStrength());
-		System.out.print(") Dexterity(" + hero.getDexterity());
-		System.out.println(") Agility(" + hero.getAgility());
+		System.out.print("),   Dexterity(" + hero.getDexterity());
+		System.out.println("),   Agility(" + hero.getAgility() + ")");
 		
 		System.out.println("-----------------------------------------");
 		System.out.print("Monster: ");
@@ -135,9 +129,9 @@ public class BattleHelper {
 		System.out.println("-----------------------------------------");
 	}
 	
-	//Adding Tribute based on different Cells
 	public static void addingAttribute(Hero hero, LOVBoard gameboard) {
-		
+		//Adding Tribute based on different Cells
+
 		String current = gameboard.getCellName(hero);
 		if(current.equals("CaveCell")) {hero.addAgility(0.1);}
 		else if(current.equals("BushCell")) {hero.addDexterity(0.1);}
@@ -146,7 +140,8 @@ public class BattleHelper {
 	}
 	
 	public static void resetAttribute(Hero hero, LOVBoard gameboard) {
-		
+		// reset attribute when a battle ends
+
 		String current = gameboard.getCellName(hero);
 		if(current.equals("CaveCell")) {hero.removeAgility(0.1);}
 		else if(current.equals("BushCell")) {hero.removeDexterity(0.1);}

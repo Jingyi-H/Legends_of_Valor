@@ -1,6 +1,6 @@
 import java.util.ArrayList;
 
-
+// parse spell data from config file
 public class SpellItem {
 	
 	private ArrayList<ArrayList<String>> FireSpell;

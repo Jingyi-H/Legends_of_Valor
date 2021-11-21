@@ -1,7 +1,7 @@
 import java.util.*;
 
 public class MonsterFactory {
-    // for creating monsters
+    // Factory pattern for creating monsters
     static final int DRAGON = 1;
     static final int EXOSKELETON = 2;
     static final int SPIRIT = 3;
@@ -15,12 +15,14 @@ public class MonsterFactory {
     public MonsterFactory() {}
 
     public Monster getMonster(int type, int level) {
+        // return a monster with given type and level
         Monster newMonster = selectMonster(type, level);
         return newMonster;
     }
 
 
     private Monster selectMonster(int type, int level) {
+        // select a monster of given type and level
         Monster newMonster = null;
         switch (type) {
             case DRAGON:
@@ -57,6 +59,7 @@ public class MonsterFactory {
     }
 
     private Dragon getDragon(ArrayList<String> attrs) {
+        // instantiate a dragon and return it
         Dragon dragon = new Dragon();
         dragon.setAttributes(attrs);
 
@@ -64,6 +67,7 @@ public class MonsterFactory {
     }
 
     private Exoskeleton getExoskeleton(ArrayList<String> attrs) {
+        // instantiate a exoskeleton and return it
         Exoskeleton exoskeleton = new Exoskeleton();
         exoskeleton.setAttributes(attrs);
 
@@ -71,20 +75,11 @@ public class MonsterFactory {
     }
 
     private Spirit getSpirit(ArrayList<String> attrs) {
+        // instantiate a spirit and return it
         Spirit spirit = new Spirit();
         spirit.setAttributes(attrs);
 
         return spirit;
     }
 
-    private void printMenu(ArrayList<ArrayList<String>> monsterList) {
-        String menu;
-        for (int i = 0; i < monsterList.size(); i++) {
-            System.out.print((i + 1) + ": ");
-            for (String s : monsterList.get(i)) {
-                System.out.print(s + "\t");
-            }
-            System.out.println();
-        }
-    }
 }

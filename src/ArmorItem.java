@@ -1,5 +1,6 @@
 import java.util.ArrayList;
 
+// parse armor data from config file
 public class ArmorItem {
 	
 	private ArrayList<ArrayList<String>> items;

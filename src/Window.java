@@ -1,3 +1,4 @@
+// GUI display window
 public class Window {
     private int width;
     private int height;
@@ -23,6 +24,7 @@ public class Window {
     }
 
     public void drawRow(int row, int col, String str) {
+        // draw a row of board components
         int len = str.length();
         if (col + len - 1 <= this.width) {
             for (int i = 0; i < len; i++) {
@@ -34,6 +36,7 @@ public class Window {
     }
 
     public void drawCol(int row, int col, String str) {
+        // draw a column of board components
         int len = str.length();
         if (row + len - 1 <= this.height) {
             for (int i = 0; i < len; i++) {
@@ -45,6 +48,7 @@ public class Window {
     }
 
     public void drawBlock(int row, int col, String[] block) {
+        // draw block components
         int block_rows = block.length;
         int block_cols = block[0].length();
         if (row + block_rows - 1 <= this.height && col + block_cols - 1 <= this.width) {
@@ -57,6 +61,7 @@ public class Window {
     }
 
     public void clear(int row1, int col1, int row2, int col2) {
+        // clear current board
         for (int i = row1; i < row2+1; i++) {
             for (int j = col1; j < col2+1; j++) {
                 drawPixel(i,j,' ');
@@ -65,6 +70,7 @@ public class Window {
     }
 
     public void display() {
+        // display window
         for (int i = 0; i < this.height; i++) {
             for (int j = 0; j < this.width; j++) {
                 System.out.print(pixels[i][j]);

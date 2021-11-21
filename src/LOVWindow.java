@@ -1,6 +1,7 @@
 import java.util.*;
 
 public class LOVWindow extends Window{
+    // GUI display window of LOV
     public LOVWindow() {
         super(42,26);
         String rowLine = "+----+----+----+----+----+----+----+----+";
@@ -16,6 +17,7 @@ public class LOVWindow extends Window{
     }
 
     public void drawCell(int row, int col, ArrayList<String> lines) {
+        // draw a fancy cell in terminal
         String[] block = new String[lines.size()];
         for (int i = 0; i < lines.size(); i++) {
             block[i] = lines.get(i);
