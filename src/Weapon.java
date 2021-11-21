@@ -1,11 +1,9 @@
 import java.util.ArrayList;
 
-public class Weapon {
-	
+// subclass of item
+public class Weapon extends Item implements Tradable {
+	// armed by heroes and can increase damage by heroes when taking regular attack
 	private int Damage;
-	private String name;
-	private int level;
-	private int cost;
 	private int HandsRequired;
 	
 	public Weapon(ArrayList<String> info) {
@@ -21,10 +19,14 @@ public class Weapon {
 		String output = this.name + ": " + "damage=" + this.Damage + " hands_required=" + this.HandsRequired;
 		return output;
 	}
+
+	@Override
+	public boolean isTradable() {
+		return true;
+	}
+
+	// getter and setter
 	public int getDamage() {return this.Damage;}
-	public String getName() {return this.name;}
-	public int getLevel() {return this.level;}
-	public int getCost() {return this.cost;}
 	public int getHandsRequired() {return this.HandsRequired;}
 
 }

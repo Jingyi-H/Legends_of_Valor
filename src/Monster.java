@@ -1,10 +1,7 @@
 import java.util.*;
 
-public abstract class Monster {
-    String name;
-    int level;
-    int hp;
-    int defense;
+// Game characters played by computer
+public abstract class Monster extends Character implements CharacterBehavioral {
     int damage;
     int dodgeChance;
 
@@ -13,7 +10,7 @@ public abstract class Monster {
     public Monster(String name, int level, int damage, int defense, int dodgeChance) {
         this.name = name;
         this.level = level;
-//        this.hp = this.level * 100;
+        this.hp = this.level * 500;
         this.damage = damage;
         this.defense = defense;
         this.dodgeChance = dodgeChance;
@@ -29,8 +26,8 @@ public abstract class Monster {
     }
 
     public int attack() {
-        int hurtValue = (int)(this.damage * 0.05);
-        System.out.println("[Monster] " + getName() + "> attack: damage = " + hurtValue);
+        int hurtValue = this.damage;
+        System.out.println("[Monster] " + getName() + "> attack: damage=" + hurtValue);
         return hurtValue;
     }
 
@@ -42,7 +39,7 @@ public abstract class Monster {
         return false;
     }
 
-    public void reduceHp(int damage) {
+    public void defend(int damage) {
         int newhp = this.hp - damage + this.defense;
         if (newhp < 0) newhp = 0;
         if (newhp > this.hp) newhp = this.hp;
@@ -75,38 +72,6 @@ public abstract class Monster {
     }
 
     // getters and setters
-    public String getName() {
-        return name;
-    }
-
-    public void setName(String name) {
-        this.name = name;
-    }
-
-    public int getLevel() {
-        return level;
-    }
-
-    public void setLevel(int level) {
-        this.level = level;
-    }
-
-    public int getHp() {
-        return hp;
-    }
-
-    public void setHp(int hp) {
-        this.hp = hp;
-    }
-
-    public int getDefense() {
-        return defense;
-    }
-
-    public void setDefense(int defense) {
-        this.defense = defense;
-    }
-
     public int getDamage() {
         return damage;
     }

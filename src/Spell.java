@@ -1,15 +1,14 @@
 import java.util.ArrayList;
 
-public class Spell {
-	
+// subclass of item
+public class Spell extends Item implements Tradable {
+	// used in battle and can affect monsters' attributes
 	private int Damage;
-	private String name;
-	private int level;
-	private int cost;
 	private int ManaCost;
 	private String type;
 	
 	public Spell(ArrayList<String> info, int type) {
+		// initialize attributes with strings read from config files
 		this.name = info.get(0);
 		this.cost = Integer.parseInt(info.get(1));
 		this.level = Integer.parseInt(info.get(2));
@@ -21,14 +20,18 @@ public class Spell {
 	}
 
 	public String toString() {
+		// return basic info of spell
 		String output = this.name + ": type=" + this.type + " mana_cost=" + this.ManaCost;
 		return output;
 	}
-	public int getDamage() {return this.Damage;}
-	public String getName() {return this.name;}
-	public int getLevel() {return this.level;}
-	public int getCost() {return this.cost;}
-	public int getManaCost() {return this.ManaCost;}
-	public String getType() {return this.type;}
+
+	@Override
+	public boolean isTradable() {
+		return true;
+	}
+
+	public int getDamage() {return this.Damage;}			// return damage of spell
+	public int getManaCost() {return this.ManaCost;}		// return mana cost for casting the spell
+	public String getType() {return this.type;}			// return the type of spell: Fire/Ice/Lightning
 
 }

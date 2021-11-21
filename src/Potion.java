@@ -1,15 +1,14 @@
 import java.util.ArrayList;
 
-public class Potion {
-	
-	private String name;
-	private int level;
-	private int cost;
+// subclass of item
+public class Potion extends Item implements Tradable {
+	// used by heroes and can recover hp/increase other attributes
 	private int affect;
 	private String attrString;
-	private boolean[] attribute;
+	private boolean[] attribute;	// record the attributes affected in boolean: health/mana/strength/dexterity/defense/agility
 	
 	public Potion(ArrayList<String> info) {
+		// initialization
 		this.name = info.get(0);
 		this.cost = Integer.parseInt(info.get(1));
 		this.level = Integer.parseInt(info.get(2));
@@ -20,7 +19,6 @@ public class Potion {
 		String current = info.get(4);
 		String[] output = current.split("/");
 		for(String i: output) {
-			System.out.println(i);
 			if(i.equals("Health")) {this.attribute[0]=true;}
 			else if(i.equals("Mana")) {this.attribute[1]=true;}
 			else if(i.equals("Strength")) {this.attribute[2]=true;}
@@ -36,9 +34,12 @@ public class Potion {
 		return output;
 	}
 
-	public String getName() {return this.name;}
-	public int getLevel() {return this.level;}
-	public int getCost() {return this.cost;}
+	@Override
+	public boolean isTradable() {
+		return true;
+	}
+
+	// 'get' methods
 	public boolean[] getAttribute() {return this.attribute;}
 	public int getAffect() {return this.affect;}
 
