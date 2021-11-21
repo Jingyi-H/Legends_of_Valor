@@ -143,6 +143,12 @@ public class LOVBoard extends HMBoard{
         if (row < 0 || row > 7) return false;       // out of bound
         if (col < 0 || col > 7) return false;       // out of bound
         if (col == 2 || col == 5) return false;     // steps on inaccessible cells
+        for (Hero h : this.heros.keySet()) {
+            int[] p = this.heros.get(h);
+            if (row == p[0] && col == p[1]) {
+                return false;
+            }
+        }
         int[] newpos = {row, col};
         this.heros.replace(hero, newpos);
         return true;                                // return true and update hero pos
