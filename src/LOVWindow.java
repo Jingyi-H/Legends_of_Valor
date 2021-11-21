@@ -1,9 +1,9 @@
 import java.util.*;
 
-// GUI display window of LOV
 public class LOVWindow extends Window{
+    // GUI display window of LOV
     public LOVWindow() {
-        super(42,26);
+        super(70,26);
         String rowLine = "+----+----+----+----+----+----+----+----+";
         String colLine = "+||+||+||+||+||+||+||+||+";
         String rowIndex = "  0    1    2    3    4    5    6    7   ";
@@ -13,7 +13,23 @@ public class LOVWindow extends Window{
             drawCol(1,1+i*5,colLine);
         }
         drawRow(26,1,rowIndex);
-        drawCol(1,42,colIndex);
+        drawCol(1,43,colIndex);
+
+        String[] hero = {" h0 ", "    "};
+        String[] monster = {" xx ", "    "};
+        String[] bushcell = {"^^^^", "^^^^"};
+        String[] cavecell = {"/"+"--"+"\\", "\\"+"__"+"/"};
+        String[] kouloucell = {"|##|", "|##|"};
+        drawBlock(2,50, hero);
+        drawBlock(5, 50, monster);
+        drawBlock(8,50,bushcell);
+        drawBlock(11,50,cavecell);
+        drawBlock(14,50,kouloucell);
+        drawRow(2,56, "HERO");
+        drawRow(5,56,"MONSTER");
+        drawRow(8,56,"BUSH CELL");
+        drawRow(11,56,"CAVE CELL");
+        drawRow(14,56,"KOULOU CELL");
     }
 
     public void drawCell(int row, int col, ArrayList<String> lines) {
