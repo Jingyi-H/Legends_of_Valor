@@ -8,7 +8,7 @@ public class Paladin extends Hero {
     }
 
     public void levelUp() {
-        //
+        // Paladins are favored on strength and dexterity
         super.levelUp();
         strength = (int)(strength * 1.10);
         agility = (int)(agility * 1.05);

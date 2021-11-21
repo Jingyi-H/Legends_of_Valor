@@ -1,7 +1,7 @@
 import java.util.ArrayList;
 
 public class Bag {
-	// heroes bag with armor/weapon/spell/potion inventories
+	// hero's bag with armor/weapon/spell/potion inventories
 	protected ArrayList<Armor> ArmorInventory;
 	protected ArrayList<Weapon> WeaponInventory;
 	protected ArrayList<Spell> SpellInventory;
@@ -27,8 +27,8 @@ public class Bag {
 	public ArrayList<Spell> getSpellInventory(){return this.SpellInventory;}
 	public ArrayList<Potion> getPotionInventory() { return PotionInventory; }
 
+	// remove and return potion by index
 	public Potion removePotion(int a) {
-		// remove and return potion by index
 	    Potion potion = this.PotionInventory.remove(a);
 	    return potion;
     }
@@ -43,14 +43,14 @@ public class Bag {
         for (Weapon i : getWeaponInventory()) {
             info += i.getName() + "\n";
         }
-		info += "============ Armor ============\n";
+		info += "============ Armor =============\n";
 		if (getArmorInventory().size() == 0) {
 			info += "None\n";
 		}
         for (Armor i : getArmorInventory()) {
 			info += i.getName() + "\n";
 		}
-        info += "============ Spell ============\n";
+        info += "============ Spell =============\n";
 		if (getSpellInventory().size() == 0) {
 			info += "None\n";
 		}

@@ -2,3 +2,5 @@
 Legends_of_Valor.iml
 src/Assignment4
 out
+*.zip
+src/*.class

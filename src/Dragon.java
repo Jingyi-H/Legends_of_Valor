@@ -1,4 +1,4 @@
-// subclass of monster
+// subclass of monster (a kind of monster)
 public class Dragon extends Monster {
     public Dragon() {}
 

@@ -11,6 +11,7 @@ public abstract class Monster implements CharacterBehavioral {
 
     public Monster() {}
 
+    // overload
     public Monster(String name, int level, int damage, int defense, int dodgeChance) {
         this.name = name;
         this.level = level;
@@ -20,6 +21,7 @@ public abstract class Monster implements CharacterBehavioral {
         this.dodgeChance = dodgeChance;
     }
 
+    // set monster's attributes with data parsed from configuration files
     public void setAttributes(List<String> attrs) {
         this.name = attrs.get(0);
         this.level = Integer.parseInt(attrs.get(1));
@@ -30,12 +32,14 @@ public abstract class Monster implements CharacterBehavioral {
     }
 
     public int attack() {
+        // return the value of monster's damage
         int hurtValue = this.damage;
         System.out.println("[Monster] " + getName() + "> attack: damage=" + hurtValue);
         return hurtValue;
     }
 
     public boolean dodge() {
+        // return whether monster dodge the attack by hero: if true --> dodge
         if (Math.random() < this.dodgeChance * 0.01) {
             System.out.println("[Monster] " + this.name + " dodges the attack!");
             return true;
@@ -44,6 +48,7 @@ public abstract class Monster implements CharacterBehavioral {
     }
 
     public void defend(int damage) {
+        // defend against hero attacks
         int newhp = this.hp - damage + this.defense;
         if (newhp < 0) newhp = 0;
         if (newhp > this.hp) newhp = this.hp;
@@ -51,16 +56,19 @@ public abstract class Monster implements CharacterBehavioral {
     }
 
     public void reduceDamage(double perc) {
+        // when monster is hit by a spell, it may reduce damage
         int newDamage = (int) (this.damage * (1-perc));
         setDamage(newDamage);
     }
 
     public void reduceDefense(double perc) {
+        // when monster is hit by a spell, it may reduce defense
         int newDefense = (int) (this.defense * (1-perc));
         setDefense(newDefense);
     }
 
     public void reduceDodge(double perc) {
+        // when monster is hit by a spell, it may reduce dodge chance
         int newDodge = (int) (this.dodgeChance * (1-perc));
         setDodgeChance(newDodge);
     }

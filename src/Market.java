@@ -3,8 +3,8 @@ import java.util.ArrayList;
 
 
 //Zhu's Assignment
+// Markets with all items inventory
 public class Market {
-	// markets with all items inventory
 	public ArmorItem ai;
 	public WeaponItem wi;
 	public SpellItem si;

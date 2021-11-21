@@ -1,6 +1,7 @@
 import java.util.*;
 import java.util.concurrent.ThreadLocalRandom;
 
+// game board(grid) of LOV
 public class LOVBoard extends HMBoard{
     private Cell[][] cells;
     private Map<Hero, int[]> heros;
@@ -17,10 +18,12 @@ public class LOVBoard extends HMBoard{
         deadHeros = new LinkedHashMap<>();
     }
 
+    // overload
     public LOVBoard(int dim) {
         this(dim,dim);
     }
 
+    // overload
     public LOVBoard() {
         this(8);
         // Init nexus cells

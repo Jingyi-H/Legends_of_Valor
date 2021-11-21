@@ -49,8 +49,8 @@ public abstract class Hero implements CharacterBehavioral {
         this.weapon = new ArrayList<>();
     }
 
+    // set hero's attributes with data parsed from configuration files
     public void setAttributes(List<String> attrs) {
-        //split by any amount of whitespace using regex sourced from: https://javarevisited.blogspot.com/2016/10/how-to-split-string-in-java-by-whitespace-or-tabs.html
         this.name = attrs.get(0);
         this.mana = Integer.parseInt(attrs.get(1));
         this.strength = Integer.parseInt(attrs.get(2));
@@ -110,7 +110,7 @@ public abstract class Hero implements CharacterBehavioral {
     }
 
     public void defend(int val) {
-        // defend from monster attack
+        // defend against monster attacks
         int hurt = val;
         // if hero is armed
         if (armor != null)
@@ -132,7 +132,7 @@ public abstract class Hero implements CharacterBehavioral {
     }
 
     public boolean dodge() {
-        // return whether hero dodges the attack by monster: if true --> dodge
+        // return whether hero dodge the attack by monster: if true --> dodge
         if (Math.random() < this.agility * 0.0005) {
             System.out.println("[Hero] " + this.name + " dodged the attack!");
             return true;

@@ -1,7 +1,7 @@
 import java.util.*;
 
+// GUI display window of LOV
 public class LOVWindow extends Window{
-    // GUI display window of LOV
     public LOVWindow() {
         super(42,26);
         String rowLine = "+----+----+----+----+----+----+----+----+";

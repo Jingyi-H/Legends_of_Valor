@@ -7,6 +7,7 @@ public class Sorcerer extends Hero {
     }
 
     public void levelUp() {
+        // Sorcerers are favored on the dexterity and the agility.
         super.levelUp();
         strength = (int)(strength * 1.05);
         agility = (int)(agility * 1.10);
