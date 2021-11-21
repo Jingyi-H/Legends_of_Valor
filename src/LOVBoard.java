@@ -1,7 +1,6 @@
 import java.util.*;
 import java.util.concurrent.ThreadLocalRandom;
 
-// game board(grid) of LOV
 public class LOVBoard extends HMBoard{
     private Cell[][] cells;
     private Map<Hero, int[]> heros;
@@ -18,12 +17,10 @@ public class LOVBoard extends HMBoard{
         deadHeros = new LinkedHashMap<>();
     }
 
-    // overload
     public LOVBoard(int dim) {
         this(dim,dim);
     }
 
-    // overload
     public LOVBoard() {
         this(8);
         // Init nexus cells
@@ -118,6 +115,7 @@ public class LOVBoard extends HMBoard{
     public void addCharacter(Hero hero) {
         int num = this.heros.size();
         int[] pos = {7, num*3};
+        this.cells[pos[0]][pos[1]].visit();
         this.heros.put(hero, pos);
     }
 
@@ -154,6 +152,7 @@ public class LOVBoard extends HMBoard{
         }
         int[] newpos = {row, col};
         this.heros.replace(hero, newpos);
+        this.cells[row][col].visit();
         return true;                                // return true and update hero pos
     }
 
