@@ -14,14 +14,15 @@ public abstract class Hero {
     int strength;
     int dexterity;
     int agility;
-    static final int HANDS = 2;
-    int emptyHands;
+    static final int HANDS = 2; // total hands
+    int emptyHands;             // number of currently empty hands
 
-    Armor armor;
-    List<Weapon> weapon;
+    Armor armor;            // currently equipped armor
+    List<Weapon> weapon;    // currently equipped weapons
     Bag bag;
 
     public Hero() {
+        // initialize heroes stats
         this.level = 1;
         this.maxHp = this.hp = this.level * 1000;
         this.defense = 0;
@@ -31,6 +32,7 @@ public abstract class Hero {
     }
 
     public Hero(String name, int mana, int strength, int agility, int dexterity, int starting_money, int starting_exp) {
+        // initialize heroes stats with given variables
         this.name = name;
         this.mana = mana;
         this.strength = strength;
@@ -59,17 +61,19 @@ public abstract class Hero {
     }
 
     public int attack() {
+        // return the value of damage when hero takes a regular attack
         int hurtValue = this.strength;
         if (getWeapon().size() > 0) {
             for (Weapon w : getWeapon())
                 hurtValue += w.getDamage() * 0.05;
         }
-        System.out.println("[Hero] " + getName() + "> regular attack: damage = " + hurtValue);
+        System.out.println("[Hero] " + getName() + "> regular attack: damage=" + hurtValue);
 
         return hurtValue;
     }
 
     public void heal(Potion potion) {
+        // for using a potion and increase the affected attributes
         //capped
         int healValue = potion.getAffect();
         if (potion.getAttribute()[0]) {
@@ -93,6 +97,7 @@ public abstract class Hero {
     }
 
     public int castSpell(Spell spell) {
+        // return the value of damage when hero cast the given spell
         if (this.mana < spell.getManaCost()) {
             System.out.println("Failed: " + name + " does not have enough mana to cast this spell!");
             return 0;
@@ -107,12 +112,14 @@ public abstract class Hero {
     public void defend(int val) {
         // defend from monster attack
         int hurt = val;
+        // if hero is armed
         if (armor != null)
             hurt -= armor.getDamageReduction();
         if (hurt < 0) {
             System.out.print("[Hero] " + this.name + ": hp-0");
         }
         else {
+            // hero reduce hp
             int currentHp = this.hp - hurt;
             if (currentHp < 0) {
                 currentHp = 0;
@@ -125,8 +132,9 @@ public abstract class Hero {
     }
 
     public boolean dodge() {
+        // return whether hero dodges the attack by monster: if true --> dodge
         if (Math.random() < this.agility * 0.0005) {
-            System.out.println("[Hero] " + this.name + " dodges the attack!");
+            System.out.println("[Hero] " + this.name + " dodged the attack!");
             return true;
         }
         return false;
@@ -140,6 +148,7 @@ public abstract class Hero {
     }
 
     public void equipWeapon(int idx) {
+        // equip a weapon from the bag
         // check hands before equip new weapons
         Weapon equip = bag.getWeaponInventory().remove(idx);
         emptyHands = emptyHands - equip.getHandsRequired();
@@ -147,11 +156,13 @@ public abstract class Hero {
     }
 
     public void unloadArmor() {
+        // unload current armor and put it back into bag
         bag.getArmorInventory().add(armor);
         armor = null;
     }
 
     public String toString() {
+        // basic information on hero
         return name + "  exp: " + exp + "  hp: " + hp + "  mana: " + mana + "  balance: $" + money;
     }
 
@@ -164,9 +175,9 @@ public abstract class Hero {
         System.out.println(this);
     }
 
-    // print methods
 
     public void printInfo() {
+        // detailed information about hero
         System.out.println(getName());
         System.out.println("level: " + level);
         System.out.println("hp: " + hp);
@@ -185,6 +196,7 @@ public abstract class Hero {
     }
 
     public void printEquip() {
+        // print currently equipped weapons and armor
         System.out.println(getName() + " is now equipped with:");
         System.out.println("[Weapon]");
         if (weapon.size() == 0) {
@@ -193,7 +205,7 @@ public abstract class Hero {
         for (Weapon w : weapon) {
             System.out.println(w.toString());
         }
-        System.out.println("[Armor]");
+        System.out.println("\n[Armor]");
         if (armor == null) {
             System.out.println("None");
         }
@@ -203,18 +215,67 @@ public abstract class Hero {
     }
 
     public void win(int monsterLevel) {
+        // hero wins and gain money & exp according to monster's level
         int money = monsterLevel * 100;
         int exp = monsterLevel * 10;
-        //TODO: int exp = monsterLevel * 1;
-        System.out.println("[Hero] " + name + " wins! You get money:$" + money + " and exp: ");
+        //TODO: int exp = monsterLevel * 3;
+        System.out.println("[Hero] " + name + " wins! You get money: $" + money + ",  exp: " + exp);
         gainMoney(money);
         gainExp(exp);
 
     }
 
+    public void gainMoney(int money) {
+        // gain some amount of money
+        setMoney(money + this.money);
+    }
+
+    private void gainExp(int exp) {
+        // gain some amount of exp
+        setExp(exp + this.exp);
+    }
+
+    public void spendMoney(int amount) {
+        // spend some amount of money
+        setMoney(getMoney() - amount);
+    }
+
+    public void lose() {
+        // hero lose message
+        System.out.println("[Hero] " + name + " loses.");
+    }
+
+    public void addStrength(double increment) {
+        // add strength in some specific cell
+        this.strength = (int)(this.strength * (1 + increment));
+    }
+
+    public void addDexterity(double increment) {
+        // add dexterity in some specific cell
+        this.dexterity = (int)(this.dexterity * (1 + increment));
+    }
+
+    public void addAgility(double increment) {
+        // add agility in some specific cell
+        this.agility = (int)(this.agility * (1 + increment));
+    }
+
+    public void removeStrength(double increment) {
+        // remove strength bonus
+        this.strength = (int)(this.strength / (1 + increment));
+    }
+
+    public void removeDexterity(double increment) {
+        // remove dexterity bonus
+        this.dexterity = (int)(this.dexterity / (1 + increment));
+    }
+
+    public void removeAgility(double increment) {
+        // remove agility bonus
+        this.agility = (int)(this.agility / (1 + increment));
+    }
 
     // getters and setters
-
     public String getName() {
         return name;
     }
@@ -245,13 +306,11 @@ public abstract class Hero {
         return mana;
     }
 
-    private void gainExp(int exp) {
-        setExp(exp + this.exp);
-    }
-
     private void setExp(int exp) {
+        // set current exp, if satisfies conditions for level up, level += 1
         this.exp = exp;
         if (exp > level * 10 && level < 10) {
+            // maximum level == 10
             levelUp();
         }
     }
@@ -260,24 +319,8 @@ public abstract class Hero {
         this.mana = mana;
     }
 
-    public void setBag(Bag bag) {
-        this.bag = bag;
-    }
-
     public int getMoney() {
         return money;
-    }
-
-    public void gainMoney(int money) {
-        setMoney(money + this.money);
-    }
-
-    public void spendMoney(int amount) {
-        setMoney(getMoney() - amount);
-    }
-
-    public void lose() {
-        setMoney((int)(money * 0.5));
     }
 
     public void setMoney(int money) {
@@ -308,29 +351,7 @@ public abstract class Hero {
         return agility;
     }
 
-    public void addStrength(double increment) {
-        this.strength = (int)(this.strength * (1 + increment));
-    }
 
-    public void addDexterity(double increment) {
-        this.dexterity = (int)(this.dexterity * (1 + increment));
-    }
-
-    public void addAgility(double increment) {
-        this.agility = (int)(this.agility * (1 + increment));
-    }
-
-    public void removeStrength(double increment) {
-        this.strength = (int)(this.strength / (1 + increment));
-    }
-
-    public void removeDexterity(double increment) {
-        this.dexterity = (int)(this.dexterity / (1 + increment));
-    }
-
-    public void removeAgility(double increment) {
-        this.agility = (int)(this.agility / (1 + increment));
-    }
 
 
 }

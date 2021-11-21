@@ -1,15 +1,16 @@
 import java.util.*;
 import java.util.concurrent.ThreadLocalRandom;
 
-public class LOVBoard {
+public class LOVBoard extends HMBoard{
     private Cell[][] cells;
     private HashMap<Hero, int[]> heros;
     private HashMap<Monster, int[]> monsters;
     private LOVWindow window;
     private HashMap<Hero, int[]> deadHeros;
 
-    // constructors
     public LOVBoard(int rows, int cols) {
+        // initialization
+        super();
         this.cells = new Cell[rows][cols];
         heros = new HashMap<>();
         monsters = new HashMap<>();
@@ -109,18 +110,21 @@ public class LOVBoard {
         window.display();
     }
 
+    // add hero chararcter to a specific position
     public void addCharacter(Hero hero) {
         int num = this.heros.size();
         int[] pos = {7, num*3};
         this.heros.put(hero, pos);
     }
 
+    // add monster character to a specific position
     public void addCharacter(Monster monster) {
         int num = this.monsters.size();
         int[] pos = {0, num*3};
         this.monsters.put(monster, pos);
     }
 
+    // move monster to a new coordinates
     public void move(Monster monster) {
         int pos[] = this.monsters.get(monster);
         int row = pos[0];
@@ -129,6 +133,7 @@ public class LOVBoard {
         this.monsters.replace(monster, newpos);
     }
 
+    // check if the cell after moving is accessible
     public boolean checkMovable(Hero hero, String direction) {
         int[] pos = this.heros.get(hero);
         int[] posChange = directionParser(direction);
@@ -142,6 +147,7 @@ public class LOVBoard {
         return true;                                // return true and update hero pos
     }
 
+    // check event on current cell (hero)
     public int checkEvent(Hero hero) {
         int[] pos = this.heros.get(hero);
         if (pos[0] == 7) {
@@ -157,6 +163,7 @@ public class LOVBoard {
         return 3;                                           // nothing happens;
     }
 
+    // check event on current cell (monster)
     public int checkEvent(Monster monster) {
         for (Hero hero : this.heros.keySet()) {
             if (checkNeighbor(hero, monster)) return 1;     // hero monster neighboring, trigger battle event
@@ -165,6 +172,7 @@ public class LOVBoard {
         return 3;                                           // nothing happens;
     }
 
+    // get opponent for the given hero
     public Monster selectOpponent(Hero hero) {
         ArrayList<Monster> opponents = new ArrayList<Monster>();
         for (Monster monster : this.monsters.keySet()) {
@@ -173,6 +181,7 @@ public class LOVBoard {
         return opponents.get(0);
     }
 
+    // get opponent for the given monster
     public Hero selectOpponent(Monster monster) {
         ArrayList<Hero> opponents = new ArrayList<Hero>();
         for (Hero hero: this.heros.keySet()) {
@@ -181,6 +190,7 @@ public class LOVBoard {
         return opponents.get(0);
     }
 
+    // parse direction string w/a/s/d
     public int[] directionParser(String direction) {
         int[] move = new int[2];
         switch (direction) {
@@ -192,6 +202,7 @@ public class LOVBoard {
         return move;
     }
 
+    // check if monster at a neighboring cell of hero
     public boolean checkNeighbor(Hero hero, Monster monster) {
         int[] posh = this.heros.get(hero);
         int rowh = posh[0];
@@ -204,6 +215,7 @@ public class LOVBoard {
         return false;
     }
 
+    // get the type of current cell
     public String getCellName(Hero hero) {
         int[] pos = this.heros.get(hero);
         int row = pos[0];
@@ -212,6 +224,7 @@ public class LOVBoard {
         return cell.getName();
     }
 
+    // hero revives, place the hero back to the board
     public void heroRevive(Hero hero) {
         int[] pos = this.deadHeros.get(hero);
         this.heros.put(hero, pos);
@@ -224,16 +237,19 @@ public class LOVBoard {
         this.heros.replace(hero, newpos);
     }
 
+    // hero died, remove it from board until the hero revive
     public void heroDie(Hero hero) {
         int[] pos = this.heros.get(hero);
         this.deadHeros.put(hero, pos);
         this.heros.remove(hero);
     }
 
+    // monster died, remove mosnter from the board
     public void monsterDie(Monster monster) {
         this.monsters.remove(monster);
     }
 
+    // teleport to the cell of target position
     public boolean teleport(Hero hero, int[] targetPos) {
         // check target position is within board boundary
         if (targetPos[0]<0 || targetPos[0]>7 || targetPos[1]<0 || targetPos[1]>7) {

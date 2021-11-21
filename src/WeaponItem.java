@@ -1,7 +1,7 @@
 import java.util.ArrayList;
 
 
-
+// parse weapon data from config file
 public class WeaponItem {
 	
 	private ArrayList<ArrayList<String>> items;

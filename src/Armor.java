@@ -1,7 +1,8 @@
 import java.util.ArrayList;
 
+// subclass of item
 public class Armor {
-	
+	// armed by heroes and can reduce damage from attack
 	private int DamageReduction;
 	private String name;
 	private int level;
@@ -20,6 +21,7 @@ public class Armor {
 		return output;
 	}
 
+	// 'get' methods
 	public String getName() {return this.name;}
 	public int getLevel() {return this.level;}
 	public int getDamageReduction() {return this.DamageReduction;}

@@ -1,15 +1,17 @@
 import java.util.ArrayList;
 
+// subclass of item
 public class Potion {
-	
+	// used by heroes and can recover hp/increase other attributes
 	private String name;
 	private int level;
 	private int cost;
 	private int affect;
 	private String attrString;
-	private boolean[] attribute;
+	private boolean[] attribute;	// record the attributes affected in boolean: health/mana/strength/dexterity/defense/agility
 	
 	public Potion(ArrayList<String> info) {
+		// initialization
 		this.name = info.get(0);
 		this.cost = Integer.parseInt(info.get(1));
 		this.level = Integer.parseInt(info.get(2));
@@ -36,6 +38,7 @@ public class Potion {
 		return output;
 	}
 
+	// 'get' methods
 	public String getName() {return this.name;}
 	public int getLevel() {return this.level;}
 	public int getCost() {return this.cost;}

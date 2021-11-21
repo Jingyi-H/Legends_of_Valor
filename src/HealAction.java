@@ -10,6 +10,7 @@ public class HealAction extends Action {
     }
 
     public Potion getPotion() {
+        // get a potion from hero's bag
         ArrayList<Potion> potions = hero.getBag().getPotionInventory();
         if (potions.size() > 0) {
             System.out.println("Please select a potion from your bag.");
@@ -18,7 +19,7 @@ public class HealAction extends Action {
             }
             //get the potion they want
             int id = AskInput.askInt(1, potions.size()) - 1;
-            Potion p = potions.remove(id);
+            Potion p = hero.getBag().removePotion(id);
             return p;
         }
         else{
@@ -31,9 +32,10 @@ public class HealAction extends Action {
         while (true) {
             Potion potion = getPotion();
             if (potion == null) {
+                // if current hero does not have any potion
                 return false;
             }
-            hero.heal(potion);
+            hero.heal(potion);  // use selected potion
             if (!AskInput.inquireYN("Use more potions?")) {
                 break;
             }

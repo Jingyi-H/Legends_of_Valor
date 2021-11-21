@@ -1,6 +1,6 @@
 import java.util.ArrayList;
 
-public class LegendOfValor {
+public class LegendOfValor extends RPGGame {
 	// main program of LOV
 	private LOVBoard gameboard;
 	private Market market;
@@ -14,6 +14,7 @@ public class LegendOfValor {
 
 	public LegendOfValor() {
 		// initialize Legends of Valor
+		super();
 		System.out.println("Welcome to the World of Legend of Valor");
 		this.gameboard = new LOVBoard();
 		this.team = new Hero[3];
@@ -42,8 +43,8 @@ public class LegendOfValor {
 
 
 	private void round() {
-
-		//check movable
+		// LOV game contains several round, heroes team and monsters team make a move at each round
+		// check movable
 		if(this.round % 8 == 0) {
 			for(int i = 0; i<3;i++) {
 				int monsterLevel = getHighest(this.team);
@@ -160,10 +161,12 @@ public class LegendOfValor {
 	}
 
 	private int getRandomNumber(int min, int max) {
+		// generate a random number for monster factory to get a random type of monster
 		return (int) ((Math.random() * (max - min)) + min);
 	}
 
 	private int getHighest(Hero[] heroes) {
+		// return the highest level of heroes team
 		int max = 0;
 		for (Hero h : heroes) {
 			if (h.getLevel() > max) {
