@@ -1,11 +1,7 @@
 import java.util.*;
 
 // Game characters played by computer
-public abstract class Monster implements CharacterBehavioral {
-    String name;
-    int level;
-    int hp;
-    int defense;
+public abstract class Monster extends Character implements CharacterBehavioral {
     int damage;
     int dodgeChance;
 
@@ -84,38 +80,6 @@ public abstract class Monster implements CharacterBehavioral {
     }
 
     // getters and setters
-    public String getName() {
-        return name;
-    }
-
-    public void setName(String name) {
-        this.name = name;
-    }
-
-    public int getLevel() {
-        return level;
-    }
-
-    public void setLevel(int level) {
-        this.level = level;
-    }
-
-    public int getHp() {
-        return hp;
-    }
-
-    public void setHp(int hp) {
-        this.hp = hp;
-    }
-
-    public int getDefense() {
-        return defense;
-    }
-
-    public void setDefense(int defense) {
-        this.defense = defense;
-    }
-
     public int getDamage() {
         return damage;
     }

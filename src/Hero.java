@@ -2,15 +2,12 @@ import java.util.ArrayList;
 import java.util.List;
 
 // Game characters played by users
-public abstract class Hero implements CharacterBehavioral {
-    String name;
-    int level;
-    int hp;
+
+public abstract class Hero extends Character implements CharacterBehavioral {
     int exp;
     int mana;
     int maxHp;
     int money;
-    int defense;
     int strength;
     int dexterity;
     int agility;
@@ -222,7 +219,6 @@ public abstract class Hero implements CharacterBehavioral {
         System.out.println("[Hero] " + name + " wins! You get money: $" + money + ",  exp: " + exp);
         gainMoney(money);
         gainExp(exp);
-
     }
 
     public void gainMoney(int money) {
@@ -275,29 +271,9 @@ public abstract class Hero implements CharacterBehavioral {
         this.agility = (int)(this.agility / (1 + increment));
     }
 
-    // getters and setters
-    public String getName() {
-        return name;
-    }
-
-    public void setName(String name) {
-        this.name = name;
-    }
-
-    public int getLevel() {
-        return level;
-    }
-
-    public void setLevel(int level) {
-        this.level = level;
-    }
-
     public void resetHp() { this.hp = this.maxHp;}
 
-    public int getHp() {
-        return hp;
-    }
-
+    // getters and setters
     public Bag getBag() {
         return bag;
     }
@@ -345,13 +321,11 @@ public abstract class Hero implements CharacterBehavioral {
 
     public int getDexterity() {
         return dexterity;
+
     }
 
     public int getAgility() {
         return agility;
     }
-
-
-
 
 }

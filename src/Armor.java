@@ -1,11 +1,11 @@
 import java.util.ArrayList;
 
 // subclass of item
-public class Armor extends Item {
+
+public class Armor extends Item implements Tradable{
 	// armed by heroes and can reduce damage from attack
 	private int DamageReduction;
-	private String name;
-
+	
 	public Armor(ArrayList<String> info) {
 
 		this.name = info.get(0);
@@ -18,6 +18,11 @@ public class Armor extends Item {
 	public String toString() {
 		String output = this.name + ": " + "damage_reduction=" + this.DamageReduction;
 		return output;
+	}
+
+	@Override
+	public boolean isTradable() {
+		return true;
 	}
 
 	// 'get' methods

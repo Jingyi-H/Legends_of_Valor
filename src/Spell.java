@@ -1,7 +1,7 @@
 import java.util.ArrayList;
 
 // subclass of item
-public class Spell extends Item {
+public class Spell extends Item implements Tradable {
 	// used in battle and can affect monsters' attributes
 	private int Damage;
 	private int ManaCost;
@@ -23,6 +23,11 @@ public class Spell extends Item {
 		// return basic info of spell
 		String output = this.name + ": type=" + this.type + " mana_cost=" + this.ManaCost;
 		return output;
+	}
+
+	@Override
+	public boolean isTradable() {
+		return true;
 	}
 
 	public int getDamage() {return this.Damage;}			// return damage of spell

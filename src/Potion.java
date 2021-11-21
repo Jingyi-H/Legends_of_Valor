@@ -1,7 +1,8 @@
 import java.util.ArrayList;
 
 // subclass of item
-public class Potion extends Item {
+
+public class Potion extends Item implements Tradable {
 	// used by heroes and can recover hp/increase other attributes
 	private int affect;
 	private String attrString;
@@ -32,6 +33,11 @@ public class Potion extends Item {
 	public String toString() {
 		String output = this.name + ": increment=" + this.affect + " attribute_affected=" + this.attrString;
 		return output;
+	}
+
+	@Override
+	public boolean isTradable() {
+		return true;
 	}
 
 	// 'get' methods
