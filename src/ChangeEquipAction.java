@@ -10,6 +10,7 @@ public class ChangeEquipAction extends Action {
 
     @Override
     boolean execute() {
+        // execute this action
         hero.printEquip();
         while (!exit) {
             int equipType = selectType();
@@ -36,6 +37,7 @@ public class ChangeEquipAction extends Action {
     }
 
     private int selectType() {
+        // select equipment type
         System.out.println("> Change Equipment...");
         System.out.println("1: Weapon");
         System.out.println("2: Armor");
@@ -46,6 +48,7 @@ public class ChangeEquipAction extends Action {
     }
 
     private int selectAction() {
+        // select equip/unload
         System.out.println("> Select your action...");
         System.out.println("1: Equip");
         System.out.println("2: Unload");
@@ -55,6 +58,7 @@ public class ChangeEquipAction extends Action {
     }
 
     private boolean equipWeapon() {
+        // select an weapon from bag and equip
         List<Weapon> weapons = hero.getBag().getWeaponInventory();
         if (weapons.size() == 0) {
             //if hero has no weapons
@@ -85,6 +89,7 @@ public class ChangeEquipAction extends Action {
     }
 
     private boolean equipArmor() {
+        // select an armor from bag and equip
         System.out.println("> Please select an armor to equip:");
         List<Armor> armors = hero.getBag().getArmorInventory();
         if (armors.size() == 0) {

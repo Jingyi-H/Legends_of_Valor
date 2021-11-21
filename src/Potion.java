@@ -1,6 +1,7 @@
 import java.util.ArrayList;
 
 // subclass of item
+
 public class Potion extends Item implements Tradable {
 	// used by heroes and can recover hp/increase other attributes
 	private int affect;

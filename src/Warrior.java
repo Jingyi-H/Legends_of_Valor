@@ -1,4 +1,4 @@
-// subclass of Hero, override levelUp()
+// subclass of Hero
 public class Warrior extends Hero {
 
     public Warrior() {
@@ -10,6 +10,7 @@ public class Warrior extends Hero {
     }
 
     public void levelUp() {
+        // Warriors are favored on strength and agility.
         super.levelUp();
         strength = (int)(strength * 1.10);
         agility = (int)(agility * 1.10);

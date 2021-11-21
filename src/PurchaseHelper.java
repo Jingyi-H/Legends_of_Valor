@@ -3,12 +3,11 @@ import java.util.InputMismatchException;
 import java.util.Scanner;
 
 
-
-
-
+// for market(nexus) event
 public class PurchaseHelper {
 	
 	public static void sell(Hero hero) {
+		// current hero select item(s) to sell and get money
 		while(true) {
 			System.out.println("You have $" + hero.getMoney());
 			System.out.println("What do you want to sell: 1 -- Armor, 2 -- Weapon, 3 -- Spell, 4 -- Potion, 5 -- quit");
@@ -22,6 +21,7 @@ public class PurchaseHelper {
 	}
 	
 	public static void sellArmor(Hero hero) {
+		// current hero wants to sell armor
 		if(hasArmor(hero)==false) {System.out.println("You don't have any Armor");}
 		else {
 			int size = hero.getBag().getArmorInventory().size();
@@ -50,7 +50,9 @@ public class PurchaseHelper {
 			hero.getBag().getArmorInventory().remove(choice -1);
 		}
 	}
+
 	public static void sellWeapon(Hero hero) {
+		// current hero wants to sell weapon
 		if(hasWeapon(hero)==false) {System.out.println("You don't have any Weapon");}
 		else {
 			int size = hero.getBag().getWeaponInventory().size();
@@ -80,6 +82,7 @@ public class PurchaseHelper {
 		}
 	}
 	public static void sellSpell(Hero hero) {
+		// current hero wants to sell spell
 		if(hasSpell(hero)==false) {System.out.println("You don't have any Spell");}
 		else {
 			int size = hero.getBag().getSpellInventory().size();
@@ -110,6 +113,7 @@ public class PurchaseHelper {
 	}
 	
 	public static void sellPotion(Hero hero) {
+		// current hero wants to sell potion
 		if(hasPotion(hero)==false) {System.out.println("You don't have any Potion");}
 		else {
 			int size = hero.getBag().getPotionInventory().size();
@@ -141,28 +145,28 @@ public class PurchaseHelper {
 	
 	
 	public static boolean hasSpell(Hero hero) {
-		
+		// check if current hero has any spell
 		int count = hero.getBag().getSpellInventory().size();
 		if(count == 0) {return false;}
 		else {return true;}
 		
 	}
 	public static boolean hasArmor(Hero hero) {
-		
+		// check if current hero has any armor in bag
 		int count = hero.getBag().getArmorInventory().size();
 		if(count == 0) {return false;}
 		else {return true;}
 		
 	}
 	public static boolean hasWeapon(Hero hero) {
-		
+		// check if current hero has any weapon in bag
 		int count = hero.getBag().getWeaponInventory().size();
 		if(count == 0) {return false;}
 		else {return true;}
 		
 	}
 	public static boolean hasPotion(Hero hero) {
-		
+		// check if current hero has any potion
 		int count = hero.getBag().getPotionInventory().size();
 		if(count == 0) {return false;}
 		else {return true;}
@@ -170,6 +174,7 @@ public class PurchaseHelper {
 	}
 	
 	public static void purchase(Hero hero, Market market) {
+		// for heroes to select items and purchase
 		System.out.println("####################################################");
 		market.showitems();
 		System.out.println("####################################################");
@@ -179,6 +184,9 @@ public class PurchaseHelper {
 			int choice = AskInput.askpurchase();
 			if(choice == 30) {
 				sell(hero);
+				if (AskInput.inquireYN("Leave market?")) {
+					break;
+				}
 				System.out.println("####################################################");
 				market.showitems();
 				System.out.println("####################################################");
@@ -207,15 +215,19 @@ public class PurchaseHelper {
 				}else {
 					hero.getBag().addPotion(new Potion(itembought));
 				}
+				System.out.println(">>> Transaction succeeded");
+				if (AskInput.inquireYN("Leave market?")) {
+					break;
+				}
 				System.out.println("####################################################");
 				market.showitems();
 				System.out.println("####################################################");
 				System.out.print(hero.getName());
 				System.out.println(", please make your purchase or quit:"+ "("+hero.getMoney()+" remain money"+")");
-				System.out.println("You have "+hero.getMoney() + "$ left");
+				System.out.println("You have $"+hero.getMoney() + " left");
 			}
 			else {
-				System.out.println("You don't have enough money or you are not level enough to purchase this item, please make another selecion");
+				System.out.println(">>> Transaction failed\n    You don't have enough money or you are not level enough to purchase this item, please make another selecion");
 			}
 			
 			

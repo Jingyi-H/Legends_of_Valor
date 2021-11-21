@@ -4,10 +4,12 @@ import java.nio.file.Files;
 import java.nio.file.Paths;
 import java.util.*;
 
+// Utils class for parsing
 public class AskInput {
     private static final int MIN = -99999;
     private static HeroFactory heroFactory = new HeroFactory();
 
+    // ask player to input an integer with required boundary
     public static int askInt(int min, int max) {
         Scanner scanner = new Scanner(System.in);
         System.out.printf("Please enter the number (%d ~ %d): ", min, max);
@@ -27,11 +29,15 @@ public class AskInput {
         return x;
     }
 
-    public static Hero askHero() {
+    // ask player to select heroes
+    public static Hero askHero(int i) {
+        System.out.println(">>>>>> " + "Please select hero " + i + " >>>>>>");
         Hero h = heroFactory.getHero();
+        System.out.println();
         return h;
     }
 
+    // inquire yes/no of prompt questions
     public static boolean inquireYN(String promptMsg) {
         System.out.print(promptMsg + " (y/n)  ");
         Scanner scanner = new Scanner(System.in);
@@ -49,10 +55,11 @@ public class AskInput {
         return yes;
     }
 
+    // File parsing method
     public static ArrayList<ArrayList<String>> read(String filename) {
         String delimAlias = "/";
         String delimData = "\\s+";
-        String file = System.getProperty("user.dir") + "/src/ConfigFiles/" + filename;
+        String file = System.getProperty("user.dir") + "/ConfigFiles/" + filename;
         List<String> lines = Collections.emptyList();
         ArrayList<ArrayList<String>> result = new ArrayList<ArrayList<String>>();
         try {
@@ -140,7 +147,7 @@ public class AskInput {
         String choice = "";
         while(true) {
             Scanner file = new Scanner(System.in);
-            choice = file.nextLine();
+            choice = file.nextLine().toLowerCase();
             while(!(choice.equals("w"))&&!(choice.equals("a"))&&!(choice.equals("s"))&&!(choice.equals("d"))&&!(choice.equals("i"))&&!(choice.equals("t"))&&!(choice.equals("q"))) {
                 System.out.println("(Error A07)You have to input 'w', or 'a', or 's', or 'd', or 'i', or 't', or 'q'");
                 choice = file.nextLine();
@@ -151,9 +158,11 @@ public class AskInput {
 
     }
 
+    // Ask coordinates that the player wants selected hero to teleport to
     public static int[] askCoordinates(int lower, int upper) {
         // TODO:
-        System.out.print("Enter the coordinates of the tile you want to teleport: ");
+        System.out.println("You can only teleport to either beside or behind the hero you want to assist.");
+        System.out.print("Enter the coordinates you want to teleport to: (e.g. 1 2)");
         Scanner in = new Scanner(System.in);
         int[] coord = new int[2];
         int count = 0;
@@ -181,7 +190,6 @@ public class AskInput {
             }
         }
         return coord;
-
     }
 
 

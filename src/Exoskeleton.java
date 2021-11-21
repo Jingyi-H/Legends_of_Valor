@@ -1,3 +1,4 @@
+// subclass of monster (a kind of monster)
 public class Exoskeleton extends Monster {
     public Exoskeleton() {}
 

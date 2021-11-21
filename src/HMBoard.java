@@ -1,4 +1,7 @@
+// super class of LOV board
 public class HMBoard {
-    Cell[][] board;
-    int size;
+    protected Cell[][] board;
+    protected int size;
+
+    public HMBoard(){}
 }

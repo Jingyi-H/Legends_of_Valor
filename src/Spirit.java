@@ -1,3 +1,4 @@
+// subclass of Monster
 public class Spirit extends Monster {
     public Spirit() {}
 

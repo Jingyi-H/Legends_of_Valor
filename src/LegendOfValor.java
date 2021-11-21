@@ -1,7 +1,7 @@
 import java.util.ArrayList;
 
-public class LegendOfValor {
-
+public class LegendOfValor extends RPGGame {
+	// main program of LOV
 	private LOVBoard gameboard;
 	private Market market;
 	private Hero[] team;
@@ -13,7 +13,8 @@ public class LegendOfValor {
 
 
 	public LegendOfValor() {
-
+		// initialize Legends of Valor
+		super();
 		System.out.println("Welcome to the World of Legend of Valor");
 		this.gameboard = new LOVBoard();
 		this.team = new Hero[3];
@@ -24,11 +25,10 @@ public class LegendOfValor {
 		runGame();
 	}
 
-	public void runGame() {
-
+	private void runGame() {
+		// initialize heroes team and run the game
 		for(int i=0;i<3;i++) {
-			this.team[i] = AskInput.askHero();
-			PurchaseHelper.purchase(this.team[i], this.market);
+			this.team[i] = AskInput.askHero(i + 1);
 		}
 		// initiate coordinates of hero groups
 		this.gameboard.addCharacter(this.team[0]);
@@ -43,19 +43,43 @@ public class LegendOfValor {
 
 
 	private void round() {
-
-		//check movable
+		// LOV game contains several round, heroes team and monsters team make a move at each round
+		// check movable
 		if(this.round % 8 == 0) {
 			for(int i = 0; i<3;i++) {
-				// TODO: Monster needs to be the same level as hero
 				int monsterLevel = getHighest(this.team);
 				Monster current = monsterFactory.getMonster(getRandomNumber(1, 3), monsterLevel);
 				this.gameboard.addCharacter(current);
+
+			}
+		}
+		if (this.round % 3 == 0) {
+			for (int i = 0; i < 3; i++) {
+				if (team[i].getHp() == 0) {
+					team[i].resetHp();
+					gameboard.heroRevive(team[i]);
+				}
 			}
 		}
 		this.gameboard.print();
 		System.out.println();// TODO: Zhu's Assignment map explanation
 		for(int i = 0; i<3;i++) {
+			if (team[i].getHp() == 0) {continue;}
+			if (gameboard.checkEvent(team[i]) == 0) {
+				//Ask enter shop or not on the map
+				if (AskInput.inquireYN(team[i].getName() + ", you are at Nexus, would you like to purchase?")) {
+					PurchaseHelper.purchase(team[i], market);
+					System.out.println();
+				}
+			}
+			else if (gameboard.checkEvent(team[i]) == 4) {
+				if (AskInput.inquireYN(team[i].getName() + ", you are at Nexus, would you like to purchase?")) {
+					PurchaseHelper.purchase(team[i], market);
+					System.out.println();
+				}
+				BattleHelper.battle(team[i], gameboard.selectOpponent(team[i]), gameboard);
+				System.out.println();
+			}
 			System.out.println(team[i].getName() + " please make your move");
 			while(true) {
 				this.move = AskInput.askMove();
@@ -63,7 +87,7 @@ public class LegendOfValor {
 				if(this.move.equals("q")) {System.out.println("End Game");System.exit(0);}
 				//open character information
 				if(this.move.equals("i")){
-				    // TODO: show info
+				    // show info
 					System.out.println(this.team[i].toString());
 					System.out.println(this.team[i].getBag());
                     while(true) {
@@ -86,25 +110,34 @@ public class LegendOfValor {
                             }
                         }
                     }
+					continue;
 				}
 				if(this.move.equals("t")) {
-					// TODO: teleport
+					// teleport
 					int[] coord = AskInput.askCoordinates(0, 8);
 					if(this.gameboard.teleport(this.team[i], coord)) {break;}
 				}
-				else if(this.gameboard.checkMovable(this.team[i],this.move)) {break;}
-				else {System.out.println("Place cannot be reached, please make another move");}
+				else if(this.gameboard.checkMovable(this.team[i],this.move)) {
+					break;}
+				else {System.out.println("Place cannot be reached, please make another move");
+				}
 			}
 
 			//
-			this.gameboard.print();
 			int incident = this.gameboard.checkEvent(this.team[i]);
-			if(incident == 0) {PurchaseHelper.purchase(this.team[i], market);}
-			else if (incident == 1) {
-				BattleHelper.battle(this.team[i], this.gameboard.selectOpponent(this.team[i]), this.gameboard, this.market);
-				System.out.println("Hero meets monster.");
+			if(incident == 0) {
+				if (AskInput.inquireYN("You are at Nexus, would you like to purchase?")) {
+					PurchaseHelper.purchase(team[i], market);
+				}
+				this.gameboard.print();
 			}
-			else if (incident == 2) {System.out.println("The hero team won!"); System.exit(0);}
+			else if (incident == 1) {
+				this.gameboard.print();
+				BattleHelper.battle(this.team[i], this.gameboard.selectOpponent(this.team[i]), this.gameboard);
+				this.gameboard.print();
+			}
+			else if (incident == 2) {this.gameboard.print(); System.out.println("The hero team won!"); System.exit(0);}
+			else if (incident == 3) {this.gameboard.print();}
 			System.out.println("------------------------------------------");
 
 
@@ -118,7 +151,7 @@ public class LegendOfValor {
 			System.out.println("the monster team makes a move");
 			System.out.println();
 			if (incident == 1) {
-				BattleHelper.battle(this.gameboard.selectOpponent(i), i, this.gameboard, this.market);
+				BattleHelper.battle(this.gameboard.selectOpponent(i), i, this.gameboard);
 			}
 			else if (incident == 2) {
 				System.out.println("The monster team won!");
@@ -129,10 +162,12 @@ public class LegendOfValor {
 	}
 
 	private int getRandomNumber(int min, int max) {
+		// generate a random number for monster factory to get a random type of monster
 		return (int) ((Math.random() * (max - min)) + min);
 	}
 
 	private int getHighest(Hero[] heroes) {
+		// return the highest level of heroes team
 		int max = 0;
 		for (Hero h : heroes) {
 			if (h.getLevel() > max) {

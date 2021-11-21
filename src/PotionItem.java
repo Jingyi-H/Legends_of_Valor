@@ -1,7 +1,6 @@
 import java.util.ArrayList;
 
-
-
+// parse potion data from config file
 public class PotionItem {
 
 	private ArrayList<ArrayList<String>> items;
