@@ -25,6 +25,16 @@ public class Weapon extends Item implements Tradable {
 		return true;
 	}
 
+	@Override
+	public boolean isBuyable() {
+		return true;
+	}
+
+	@Override
+	public boolean isSellable() {
+		return true;
+	}
+
 	// getter and setter
 	public int getDamage() {return this.Damage;}
 	public int getHandsRequired() {return this.HandsRequired;}

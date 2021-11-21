@@ -30,6 +30,16 @@ public class Spell extends Item implements Tradable {
 		return true;
 	}
 
+	@Override
+	public boolean isBuyable() {
+		return false;
+	}
+
+	@Override
+	public boolean isSellable() {
+		return false;
+	}
+
 	public int getDamage() {return this.Damage;}			// return damage of spell
 	public int getManaCost() {return this.ManaCost;}		// return mana cost for casting the spell
 	public String getType() {return this.type;}			// return the type of spell: Fire/Ice/Lightning

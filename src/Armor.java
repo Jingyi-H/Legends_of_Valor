@@ -25,6 +25,16 @@ public class Armor extends Item implements Tradable{
 		return true;
 	}
 
+	@Override
+	public boolean isSellable() {
+		return false;
+	}
+
+	@Override
+	public boolean isBuyable() {
+		return false;
+	}
+
 	// 'get' methods
 	public int getDamageReduction() {return this.DamageReduction;}
 

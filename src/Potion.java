@@ -40,6 +40,16 @@ public class Potion extends Item implements Tradable {
 		return true;
 	}
 
+	@Override
+	public boolean isBuyable() {
+		return true;
+	}
+
+	@Override
+	public boolean isSellable() {
+		return true;
+	}
+
 	// 'get' methods
 	public boolean[] getAttribute() {return this.attribute;}
 	public int getAffect() {return this.affect;}
